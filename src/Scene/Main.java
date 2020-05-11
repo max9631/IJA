@@ -47,8 +47,8 @@ public class Main extends Application {
         map.add(s2);
         map.add(s3);
 
-        Group root = new Group(map);
-        Scene scene = new Scene(root, 800, 700);
+//        Group root = new Group(map);
+        Scene scene = new Scene(map, 800, 700);
 
         primaryStage.setTitle("xsalih01 (a xvever12)");
         primaryStage.setScene(scene);

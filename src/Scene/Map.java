@@ -11,7 +11,6 @@ public class Map extends Group {
 
     public Map() {
 
-//        this.streets = streets;
     }
 
     void add(Street street) {
