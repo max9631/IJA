@@ -25,8 +25,11 @@ public class Controller implements StreetViewDelegate {
 
     private ViewModel model;
 
-    void loadData(Loader loader) {
-        loader.getStreets().forEach(street -> this.add(street));
+    void viewDidLoad(ViewModel model) {
+        model.getStreets().forEach(street -> this.add(street));
+        timeMultiplierSlider.valueProperty().addListener(this::didDragTimeMultiplyer);
+        timeMultiplaerText.setText(timeMultiplierSlider.getValue()+"");
+        this.model = model;
     }
 
     void add(Street street) {
@@ -46,5 +49,10 @@ public class Controller implements StreetViewDelegate {
     public void didSelect(StreetView street) {
 
         System.out.println("Selected: "+street.getStreet().getId() );
+    }
+
+    public void didDragTimeMultiplyer(ObservableValue observable, Number oldValue, Number newValue) {
+        System.out.println("current time multiplier: " + newValue);
+        timeMultiplaerText.setText(newValue.toString());
     }
 }
