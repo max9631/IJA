@@ -32,10 +32,10 @@
         <content>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="382.0" prefWidth="200.0">
                <children>
-                  <Slider layoutX="13.0" layoutY="83.0" min="1.0" prefHeight="16.0" prefWidth="174.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="80.0" />
-                  <Text layoutX="14.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Rychlost:" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="50.0" />
-                  <Text layoutX="75.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" AnchorPane.leftAnchor="80.0" AnchorPane.topAnchor="50.0" />
-                  <Text layoutX="87.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="8:00" textAlignment="CENTER" wrappingWidth="159.85693359375" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0" />
+                  <Slider fx:id="timeMultiplierSlider" layoutX="13.0" layoutY="83.0" min="1.0" prefHeight="16.0" prefWidth="174.0" value="1.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="80.0" />
+                  <Text layoutX="14.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Násobitel času:" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="50.0" />
+                  <Text fx:id="timeMultiplaerText" layoutX="75.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" AnchorPane.leftAnchor="110.0" AnchorPane.topAnchor="50.0" />
+                  <Text fx:id="timeText" layoutX="87.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="8:00" textAlignment="CENTER" wrappingWidth="159.85693359375" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0" />
                </children>
             </AnchorPane>
         </content>

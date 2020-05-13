@@ -1,20 +1,11 @@
 package Scene;
 
-import common.Loader;
 import javafx.application.Application;
 import javafx.beans.Observable;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import model.Coordinate;
-import model.Street;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
 
 public class Main extends Application {
 
@@ -27,12 +18,8 @@ public class Main extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Scene.fxml"));
         BorderPane pane = loader.load();
 
-//        Loader loader = new Loader();
-//        Map map = new Map();
-//        loader.getStreets().forEach(street -> map.add(street));
-
         Controller controller = loader.getController();
-        controller.loadData(new Loader());
+        controller.viewDidLoad(new ViewModel());
 
         Scene scene = new Scene(pane, 1000, 800);
 

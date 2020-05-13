@@ -1,4 +1,4 @@
-package common;
+package Scene;
 
 import java.io.FileReader;
 import java.net.URL;
@@ -14,10 +14,10 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
-public class Loader {
+public class ViewModel {
     private List<Street> streets;
 
-    public Loader() {
+    public ViewModel() {
         JSONParser parser = new JSONParser();
         try {
             String resourcePath = getClass().getResource("/PublicTransport.json").getPath();
