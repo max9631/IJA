@@ -1,34 +1,50 @@
 package common;
 
 import java.io.FileReader;
+import java.net.URL;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
+import model.Coordinate;
+import model.Street;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
 public class Loader {
+    private List<Street> streets;
+
     public Loader() {
         JSONParser parser = new JSONParser();
         try {
-            Object obj = parser.parse(new FileReader("/Users/Shared/crunchify.json"));
-
-            // A JSON object. Key value pairs are unordered. JSONObject supports java.util.Map interface.
+            String resourcePath = getClass().getResource("/PublicTransport.json").getPath();
+            Object obj = parser.parse(new FileReader(resourcePath));
             JSONObject jsonObject = (JSONObject) obj;
+            JSONArray jsonStreets = (JSONArray) jsonObject.get("streets");
 
-            // A JSON array. JSONObject supports java.util.List interface.
-            JSONArray companyList = (JSONArray) jsonObject.get("Company List");
-
-            // An iterator over a collection. Iterator takes the place of Enumeration in the Java Collections Framework.
-            // Iterators differ from enumerations in two ways:
-            // 1. Iterators allow the caller to remove elements from the underlying collection during the iteration with well-defined semantics.
-            // 2. Method names have been improved.
-            Iterator<JSONObject> iterator = companyList.iterator();
-            while (iterator.hasNext()) {
-                System.out.println(iterator.next());
-            }
+            Stream<JSONObject> jsonStreetsStream = jsonStreets.stream();
+            this.streets = jsonStreetsStream
+                    .map(jsonStreet -> {
+                        JSONArray jsonCoordinates = (JSONArray) jsonStreet.get("coordinates");
+                        Stream<JSONObject> coordinateStream = jsonCoordinates.stream();
+                        List<Coordinate> coordinates = coordinateStream
+                                .map(jsonCoordinate -> {
+                                    Long x = (Long) jsonCoordinate.get("x");
+                                    Long y = (Long) jsonCoordinate.get("y");
+                                    return new Coordinate(x.intValue(), y.intValue());
+                                }).collect(Collectors.toList());
+                        String streetName = (String) jsonStreet.get("name");
+                        return new Street(streetName, coordinates);
+                    }).collect(Collectors.toList());
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public List<Street> getStreets() {
+        return streets;
     }
 }
