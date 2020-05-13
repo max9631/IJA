@@ -13,7 +13,7 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Controller {
+public class Controller implements StreetViewDelegate {
     @FXML
     private Group content;
     @FXML
@@ -40,5 +40,11 @@ public class Controller {
         for (Line line: view.lines) {
             this.content.getChildren().add(line);
         }
+    }
+
+    @Override
+    public void didSelect(StreetView street) {
+
+        System.out.println("Selected: "+street.getStreet().getId() );
     }
 }
