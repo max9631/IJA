@@ -21,6 +21,10 @@ public class StreetView {
             Coordinate coord = street.getCoordinates().get(i);
             if (c != null) {
                 Line line = new Line(c.getX(), c.getY(), coord.getX(), coord.getY());
+                int radius = 5;
+                line.setStrokeWidth(2*radius);
+                line.setStroke(Color.GRAY);
+                line.setOnMouseClicked(this::userSelectedStreet);
                 lines.add(line);
             }
             c = coord;
