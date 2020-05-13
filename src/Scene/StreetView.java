@@ -1,16 +1,26 @@
 package Scene;
 
+import javafx.event.Event;
+import javafx.event.EventHandler;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import model.Coordinate;
 import model.Street;
 
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+
+interface StreetViewDelegate {
+    void didSelect(StreetView street);
+}
 
 public class StreetView {
 
     public ArrayList<Line> lines;
 
     private Street street;
+
+    public StreetViewDelegate delegate;
 
     public StreetView(Street street) {
         this.street = street;
@@ -28,6 +38,16 @@ public class StreetView {
                 lines.add(line);
             }
             c = coord;
+        }
+    }
+
+    public Street getStreet() {
+        return street;
+    }
+
+    private void userSelectedStreet(Event event) {
+        if (delegate != null){
+            this.delegate.didSelect(this);
         }
     }
 }
