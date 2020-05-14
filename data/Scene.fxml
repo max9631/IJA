@@ -11,9 +11,9 @@
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Scene.Controller">
    <center>
-      <ScrollPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <ScrollPane pannable="true" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <content>
-            <Group>
+            <Group onScroll="#didZoom">
                <children>
                   <Pane prefHeight="200.0" prefWidth="200.0">
                      <children>
@@ -32,7 +32,7 @@
         <content>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="382.0" prefWidth="200.0">
                <children>
-                  <Slider fx:id="timeMultiplierSlider" blockIncrement="1.0" layoutX="13.0" layoutY="83.0" max="60.0" min="1.0" prefHeight="16.0" prefWidth="174.0" snapToTicks="true" value="1.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="80.0" />
+                  <Slider fx:id="timeMultiplierSlider" blockIncrement="1.0" layoutX="13.0" layoutY="83.0" majorTickUnit="1.0" max="60.0" min="1.0" minorTickCount="1" prefHeight="16.0" prefWidth="174.0" showTickMarks="true" snapToTicks="true" value="1.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="80.0" />
                   <Text layoutX="14.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Násobitel času:" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="50.0" />
                   <Text fx:id="timeMultiplaerText" layoutX="75.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" AnchorPane.leftAnchor="110.0" AnchorPane.topAnchor="50.0" />
                   <Text fx:id="timeText" layoutX="87.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="8:00" textAlignment="CENTER" wrappingWidth="159.85693359375" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0" />
