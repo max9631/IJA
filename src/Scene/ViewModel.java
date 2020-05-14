@@ -20,7 +20,7 @@ import org.json.simple.parser.JSONParser;
 public class ViewModel {
     private List<Street> streets;
     private List<Stop> stops;
-    private List<TransportLine> lines;
+    private List<TransportLine> transportLines;
 
     public ViewModel() {
         JSONParser parser = new JSONParser();
@@ -50,6 +50,27 @@ public class ViewModel {
                         stop.setStreet(this.getStreetFor((String) jsonStop.get("street")));
                         return stop;
                     }).collect(Collectors.toList());
+
+
+            JSONArray jsonLines = (JSONArray) jsonObject.get("lines");
+            Stream<JSONObject> jsonLinesStream = jsonLines.stream();
+            this.transportLines = jsonLinesStream
+                    .map(jsonStop -> {
+                        TransportLine line = new TransportLine((String) jsonStop.get("name"));
+                        JSONArray jsonRoutes = (JSONArray) jsonStop.get("route");
+                        Stream<JSONObject> jsonRoutesStream = jsonRoutes.stream();
+                        jsonRoutesStream.forEach(jsonRoute -> {
+                            Stop stop = this.getStopFor((String) jsonRoute.get("stop"));
+                            if (stop != null) {
+                                line.addStop(stop);
+                            }
+                            Street street = this.getStreetFor((String) jsonRoute.get("street"));
+                            if (street != null) {
+                                line.addStreet(street);
+                            }
+                        });
+                        return line;
+                    }).collect(Collectors.toList());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -72,6 +93,7 @@ public class ViewModel {
     }
 
     public Street getStreetFor(String key) {
+        if (key == null) return null;
         return getStreets()
                 .stream()
                 .filter(str -> str.getId().equals(key))
@@ -81,5 +103,14 @@ public class ViewModel {
 
     public List<Stop> getStops() {
         return this.stops;
+    }
+
+    public Stop getStopFor(String key) {
+        if (key == null) return null;
+        return getStops()
+                .stream()
+                .filter(stop -> stop.getId().equals(key))
+                .findFirst()
+                .get();
     }
 }

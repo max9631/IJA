@@ -199,62 +199,109 @@
     {
       "name": "Between 1 and 2 on 7th avenue",
       "coordinate": {"x": 180, "y":  700},
-      "street": "1st avenue"
+      "street": "7th avenue"
     },
     {
       "name": "Between 2 and 3 on 2nd avenue",
       "coordinate": {"x": 240, "y":  200},
-      "street": "1st avenue"
+      "street": "2nd avenue"
     },
     {
       "name": "Between 2 and 3 on 6th avenue",
       "coordinate": {"x": 260, "y":  600},
-      "street": "1st avenue"
+      "street": "6th avenue"
     },
     {
       "name": "Between 3 and 4 on 3rd avenue",
       "coordinate": {"x": 320, "y":  300},
-      "street": "1st avenue"
+      "street": "3rd avenue"
     },
     {
       "name": "Between 3 and 4 on 5th avenue",
       "coordinate": {"x": 380, "y":  500},
-      "street": "1st avenue"
+      "street": "5th avenue"
     },
     {
       "name": "Between 4 and 5 on 4th avenue",
       "coordinate": {"x": 410, "y":  400},
-      "street": "1st avenue"
+      "street": "4th avenue"
     },
     {
       "name": "Between 5 and 6 on 5th avenue",
       "coordinate": {"x": 580, "y":  500},
-      "street": "1st avenue"
+      "street": "5th avenue"
     },
     {
       "name": "Between 5 and 6 on 3rd avenue",
       "coordinate": {"x": 550, "y":  300},
-      "street": "1st avenue"
+      "street": "3rd avenue"
     },
     {
-      "name": "Between 6 and 7 on 2rd avenue",
+      "name": "Between 6 and 7 on 2nd avenue",
       "coordinate": {"x": 650, "y":  200},
-      "street": "1st avenue"
+      "street": "2nd avenue"
     },
     {
       "name": "Between 6 and 7 on 6th avenue",
       "coordinate": {"x": 650, "y":  600},
-      "street": "1st avenue"
+      "street": "6th avenue"
     },
     {
-      "name": "Between 6 and 7 on 1th avenue",
+      "name": "Between 5 and 6 on 1st avenue",
       "coordinate": {"x": 550, "y":  100},
       "street": "1st avenue"
     },
     {
-      "name": "Between 6 and 7 on 7th avenue",
+      "name": "Between 5 and 6 on 7th avenue",
       "coordinate": {"x": 550, "y":  700},
-      "street": "1st avenue"
+      "street": "7th avenue"
+    }
+  ],
+  "lines": [
+    {
+      "name": "1",
+      "route": [
+        {
+          "stop": "Between 1 and 2 on 1st avenue"
+        },
+        {
+          "street": "1st street"
+        },
+        {
+          "stop": "Between 2 and 3 on 2nd avenue"
+        },
+        {
+          "street": "2nd street"
+        },
+        {
+          "stop": "Between 3 and 4 on 3rd avenue"
+        },
+        {
+          "street": "3rd street"
+        },
+        {
+          "stop": "Between 4 and 5 on 4th avenue"
+        },
+        {
+          "street": "4th street"
+        },
+        {
+          "stop": "Between 5 and 6 on 5th avenue"
+        },
+        {
+          "street": "5th street"
+        },
+        {
+          "stop": "Between 6 and 7 on 6th avenue"
+        },
+        {
+          "street": "6th street"
+        },
+        {
+          "stop": "Between 5 and 6 on 7th avenue",
+          "street": "7th avenue"
+        }
+      ]
     }
   ]
 }
