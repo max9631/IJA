@@ -115,4 +115,8 @@ public class ViewModel {
                 .findFirst()
                 .get();
     }
+
+    public List<TransportLine> getTransportLines() {
+        return this.transportLines;
+    }
 }

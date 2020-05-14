@@ -23,7 +23,7 @@ public class Main extends Application {
 
         Scene scene = new Scene(pane, 1000, 800);
 
-        primaryStage.setTitle("xsalih01 (a xvever12)");
+        primaryStage.setTitle("xsalih01 a xvever12");
         primaryStage.setScene(scene);
         primaryStage.show();
     }

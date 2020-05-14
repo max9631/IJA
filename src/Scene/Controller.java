@@ -7,10 +7,12 @@ import javafx.scene.Group;
 import javafx.scene.control.Slider;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.input.ZoomEvent;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
 import model.Stop;
 import model.Street;
+import model.TransportLine;
 
 import java.awt.event.MouseEvent;
 import java.util.AbstractMap;
@@ -36,6 +38,7 @@ public class Controller implements StreetViewDelegate {
         dispatching = new Dispatching(time.getKey(), time.getValue(), timeText, timeMultiplierSlider);
         model.getStreets().forEach(this::add);
         model.getStops().forEach(this::add);
+        model.getTransportLines().forEach(this::add);
         timeMultiplierSlider.valueProperty().addListener(this::didDragTimeMultiplyer);
         timeMultiplaerText.setText(((int) timeMultiplierSlider.getValue())+"");
         this.model = model;
@@ -81,6 +84,11 @@ public class Controller implements StreetViewDelegate {
         content.setScaleX(zoom*content.getScaleX());
         content.setScaleY(zoom*content.getScaleY());
         content.layout();
+    }
+    
+    void add(TransportLine line){
+        BusView view = new BusView(line);
+        this.content.getChildren().addAll(view.getBus());
     }
 
     @Override
