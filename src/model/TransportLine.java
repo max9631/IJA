@@ -7,9 +7,9 @@ import java.util.List;
 public class TransportLine{
     private String id;
     private List<SimpleImmutableEntry<Street, Stop>> route;
-    private String interval;
+    private double interval;
 
-    public TransportLine(String id, String interval) {
+    public TransportLine(String id, double interval) {
         this.id = id;
         this.interval = interval;
         this.route = new ArrayList<>();
@@ -55,7 +55,7 @@ public class TransportLine{
         return id;
     }
 
-    public String getInterval() {
+    public double getInterval() {
         return interval;
     }
 }
