@@ -11,6 +11,7 @@ import model.Stop;
 import model.Street;
 
 import java.awt.event.MouseEvent;
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,12 +27,26 @@ public class Controller implements StreetViewDelegate {
 
     private ViewModel model;
 
+    private Dispatching dispatching;
+
     void viewDidLoad(ViewModel model) {
+        AbstractMap.SimpleImmutableEntry<Integer, Integer> time = getDefaultTime(timeText.getText());
+        dispatching = new Dispatching(time.getKey(), time.getValue(), timeText, timeMultiplierSlider);
         model.getStreets().forEach(this::add);
         model.getStops().forEach(this::add);
         timeMultiplierSlider.valueProperty().addListener(this::didDragTimeMultiplyer);
         timeMultiplaerText.setText(timeMultiplierSlider.getValue()+"");
         this.model = model;
+    }
+
+    private AbstractMap.SimpleImmutableEntry<Integer, Integer> getDefaultTime(String text) {
+        int hours, minutes;
+        String[] newText = text.split(":");
+
+        hours = Integer.parseInt(newText[0]);
+        minutes = Integer.parseInt(newText[1]);
+
+        return new AbstractMap.SimpleImmutableEntry<>(hours, minutes);
     }
 
     void add(Street street) {
