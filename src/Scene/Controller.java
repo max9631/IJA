@@ -77,9 +77,7 @@ public class Controller implements StreetViewDelegate {
 
     void add(TransportLine line){
         BusView view = new BusView(line);
-        Text text = new Text(view.getStartPos().getX()-3, view.getStartPos().getY()+5, view.getBusId());
-        this.content.getChildren().add(view.getBus());
-        this.content.getChildren().add(text);
+        this.content.getChildren().addAll(view.getBus());
     }
 
     @Override
