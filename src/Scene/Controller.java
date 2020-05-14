@@ -33,14 +33,18 @@ public class Controller implements StreetViewDelegate {
     private ViewModel model;
     private Dispatching dispatching;
 
+    private StreetView selectedStreetView;
+
     void viewDidLoad(ViewModel model) {
         AbstractMap.SimpleImmutableEntry<Integer, Integer> time = getDefaultTime(timeText.getText());
         dispatching = new Dispatching(time.getKey(), time.getValue(), timeText, timeMultiplierSlider);
         model.getStreets().forEach(this::add);
         model.getStops().forEach(this::add);
         model.getTransportLines().forEach(this::add);
+        traficJamSlider.valueProperty().addListener(this::didDragJamCoeficient);
         timeMultiplierSlider.valueProperty().addListener(this::didDragTimeMultiplyer);
         timeMultiplaerText.setText(((int) timeMultiplierSlider.getValue())+"");
+        jamCoeficientView.setOpacity(0);
         this.model = model;
     }
 
@@ -91,15 +95,44 @@ public class Controller implements StreetViewDelegate {
     }
 
     @FXML public void didDeselectStreet(Event event) {
+        event.consume();
+        deselectStreet();
+    }
+
+    private void deselectStreet() {
+        if (selectedStreetView != null) {
+            selectedStreetView.lines.forEach(line -> line.setStroke(Color.LIGHTGRAY));
+        }
+        jamCoeficientView.setOpacity(0);
+        selectedStreetView = null;
     }
 
     @Override
     public void didSelect(StreetView street) {
-        System.out.println("Selected: "+street.getStreet().getId() );
+        deselectStreet();
+        selectedStreetView = street;
+        traficJamSlider.setValue(street.getStreet().getFrictionCoeficient());
+        this.setJamCoeficient(street, street.getStreet().getFrictionCoeficient());
+        jamCoeficientView.setOpacity(1);
+    }
+
+    private void setJamCoeficient(StreetView street, double jamCoeficient) {
+        if (street == null) return;
+        street.getStreet().setFrictionCoeficient(jamCoeficient);
+        double percentage = jamCoeficient / traficJamSlider.getMax();
+        double redDouble = 255 * percentage;
+        int red = (int) redDouble;
+        double greenDouble = 255 * (1 - percentage);
+        int green = (int) greenDouble;
+        street.lines.forEach(line -> line.setStroke(Color.rgb(red, green, 0)));
     }
 
     public void didDragTimeMultiplyer(ObservableValue observable, Number oldValue, Number newValue) {
-        System.out.println("current time multiplier: " + newValue);
         timeMultiplaerText.setText(newValue.intValue()+"");
+    }
+
+    public void didDragJamCoeficient(ObservableValue observable, Number oldValue, Number newValue) {
+        jamCoeficientText.setText(newValue.doubleValue()+"");
+        setJamCoeficient(selectedStreetView, newValue.doubleValue());
     }
 }
