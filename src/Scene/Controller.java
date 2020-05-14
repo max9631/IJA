@@ -5,8 +5,11 @@ import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
 import javafx.scene.control.Slider;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.input.ZoomEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
@@ -14,23 +17,20 @@ import model.Stop;
 import model.Street;
 import model.TransportLine;
 
-import java.awt.event.MouseEvent;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Controller implements StreetViewDelegate {
-    @FXML
-    private Group content;
-    @FXML
-    private Slider timeMultiplierSlider;
-    @FXML
-    private Text timeMultiplaerText;
-    @FXML
-    private Text timeText;
+    @FXML private Group content;
+    @FXML private Slider timeMultiplierSlider;
+    @FXML private Text timeMultiplaerText;
+    @FXML private Text timeText;
+    @FXML private Slider traficJamSlider;
+    @FXML private AnchorPane jamCoeficientView;
+    @FXML private Text jamCoeficientText;
 
     private ViewModel model;
-
     private Dispatching dispatching;
 
     void viewDidLoad(ViewModel model) {
@@ -77,18 +77,20 @@ public class Controller implements StreetViewDelegate {
         this.content.getChildren().add(view);
     }
 
-    @FXML
-    public void didZoom(ScrollEvent event) {
+    void add(TransportLine line){
+        BusView view = new BusView(line);
+        this.content.getChildren().addAll(view.getBus());
+    }
+
+    @FXML public void didZoom(ScrollEvent event) {
         event.consume();
         double zoom = event.getDeltaY() > 0 ? 1.1 : 0.9;
         content.setScaleX(zoom*content.getScaleX());
         content.setScaleY(zoom*content.getScaleY());
         content.layout();
     }
-    
-    void add(TransportLine line){
-        BusView view = new BusView(line);
-        this.content.getChildren().addAll(view.getBus());
+
+    @FXML public void didDeselectStreet(Event event) {
     }
 
     @Override
