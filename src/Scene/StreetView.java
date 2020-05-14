@@ -46,6 +46,7 @@ public class StreetView {
     }
 
     private void userSelectedStreet(Event event) {
+        event.consume();
         if (delegate != null){
             this.delegate.didSelect(this);
         }

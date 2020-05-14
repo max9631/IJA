@@ -10,8 +10,11 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/Scene.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/build/Scene.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/Scene/Controller.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/Scene/Controller.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/Scene/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/Scene/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/Scene/StreetView.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/Scene/StreetView.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/Scene.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/data/Scene.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Scene/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Scene/Controller.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Scene/StreetView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Scene/StreetView.java" afterDir="false" />
     </list>
     <ignored path="JavaFxApplication.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -128,8 +131,8 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/Scene/StreetView.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="500">
-                  <caret line="34" column="46" selection-start-line="34" selection-start-column="46" selection-end-line="34" selection-end-column="46" />
+                <state relative-caret-position="735">
+                  <caret line="49" selection-start-line="49" selection-end-line="49" />
                   <folding>
                     <element signature="imports" expanded="true" />
                     <element signature="e#711#712#0" expanded="true" />
@@ -142,12 +145,10 @@
           <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/Scene/Controller.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="355">
-                  <caret line="39" column="36" selection-start-line="39" selection-start-column="36" selection-end-line="39" selection-end-column="36" />
+                <state relative-caret-position="732">
+                  <caret line="132" lean-forward="true" selection-start-line="132" selection-end-line="132" />
                   <folding>
                     <element signature="imports" expanded="true" />
-                    <element signature="e#1451#1452#0" expanded="true" />
-                    <element signature="e#1527#1528#0" expanded="true" />
                   </folding>
                 </state>
               </provider>
@@ -285,10 +286,10 @@
         <option value="$PROJECT_DIR$/src/Scene/Main.java" />
         <option value="$PROJECT_DIR$/src/model/Street.java" />
         <option value="$PROJECT_DIR$/src/Scene/StopView.java" />
-        <option value="$PROJECT_DIR$/src/Scene/StreetView.java" />
         <option value="$PROJECT_DIR$/src/model/TransportLine.java" />
         <option value="$PROJECT_DIR$/data/PublicTransport.json" />
         <option value="$PROJECT_DIR$/src/Scene/ViewModel.java" />
+        <option value="$PROJECT_DIR$/src/Scene/StreetView.java" />
         <option value="$PROJECT_DIR$/src/Scene/Controller.java" />
       </list>
     </option>
@@ -508,7 +509,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="53564000" />
+    <option name="totallyTimeSpent" value="56601000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1920" height="1080" extended-state="0" />
@@ -692,18 +693,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Scene/StreetView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="500">
-          <caret line="34" column="46" selection-start-line="34" selection-start-column="46" selection-end-line="34" selection-end-column="46" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#711#712#0" expanded="true" />
-            <element signature="e#740#741#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Scene/Main.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="315">
@@ -782,14 +771,24 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Scene/Controller.java">
+    <entry file="file://$PROJECT_DIR$/src/Scene/StreetView.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="355">
-          <caret line="39" column="36" selection-start-line="39" selection-start-column="36" selection-end-line="39" selection-end-column="36" />
+        <state relative-caret-position="735">
+          <caret line="49" selection-start-line="49" selection-end-line="49" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#1451#1452#0" expanded="true" />
-            <element signature="e#1527#1528#0" expanded="true" />
+            <element signature="e#711#712#0" expanded="true" />
+            <element signature="e#740#741#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Scene/Controller.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="732">
+          <caret line="132" lean-forward="true" selection-start-line="132" selection-end-line="132" />
+          <folding>
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
