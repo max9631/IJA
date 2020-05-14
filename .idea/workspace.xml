@@ -11,10 +11,8 @@
       <change beforePath="$PROJECT_DIR$/build/Scene.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/build/Scene.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/Scene/Controller.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/Scene/Controller.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/Scene/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/Scene/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/Scene/StreetView.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/Scene/StreetView.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/Scene.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/data/Scene.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Scene/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Scene/Controller.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Scene/StreetView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Scene/StreetView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Scene/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Scene/Main.java" afterDir="false" />
     </list>
     <ignored path="JavaFxApplication.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -73,11 +71,11 @@
     <splitter split-orientation="horizontal" split-proportion="0.5031766">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file pinned="false" current-in-tab="false">
+          <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/Scene/Main.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="315">
-                  <caret line="21" column="48" selection-start-line="21" selection-start-column="48" selection-end-line="21" selection-end-column="48" />
+                <state relative-caret-position="300">
+                  <caret line="20" column="21" selection-start-line="20" selection-start-column="21" selection-end-line="20" selection-end-column="21" />
                   <folding>
                     <element signature="imports" expanded="true" />
                   </folding>
@@ -142,11 +140,11 @@
               </provider>
             </entry>
           </file>
-          <file pinned="false" current-in-tab="true">
+          <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/Scene/Controller.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="732">
-                  <caret line="132" lean-forward="true" selection-start-line="132" selection-end-line="132" />
+                <state relative-caret-position="-1094">
+                  <caret line="41" column="33" selection-start-line="41" selection-start-column="25" selection-end-line="41" selection-end-column="33" />
                   <folding>
                     <element signature="imports" expanded="true" />
                   </folding>
@@ -283,7 +281,6 @@
         <option value="$PROJECT_DIR$/src/Controller.java" />
         <option value="$PROJECT_DIR$/src/Scene/sample.fxml" />
         <option value="$PROJECT_DIR$/data/Scene.fxml" />
-        <option value="$PROJECT_DIR$/src/Scene/Main.java" />
         <option value="$PROJECT_DIR$/src/model/Street.java" />
         <option value="$PROJECT_DIR$/src/Scene/StopView.java" />
         <option value="$PROJECT_DIR$/src/model/TransportLine.java" />
@@ -291,6 +288,7 @@
         <option value="$PROJECT_DIR$/src/Scene/ViewModel.java" />
         <option value="$PROJECT_DIR$/src/Scene/StreetView.java" />
         <option value="$PROJECT_DIR$/src/Scene/Controller.java" />
+        <option value="$PROJECT_DIR$/src/Scene/Main.java" />
       </list>
     </option>
   </component>
@@ -352,6 +350,13 @@
               <item name="project" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="Scene" type="462c0819:PsiDirectoryNode" />
+              <item name="Controller.java" type="529ef68f:ClassesTreeStructureProvider$PsiClassOwnerTreeNode" />
+            </path>
+            <path>
+              <item name="project" type="b2602c69:ProjectViewProjectNode" />
+              <item name="project" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="Scene" type="462c0819:PsiDirectoryNode" />
               <item name="StreetView.java" type="529ef68f:ClassesTreeStructureProvider$PsiClassOwnerTreeNode" />
             </path>
             <path>
@@ -378,7 +383,7 @@
     <property name="Repository.Attach.Sources" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1589464341392" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1589494467516" />
     <property name="dynamic.classpath" value="false" />
     <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.15" />
@@ -509,10 +514,11 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="56601000" />
+    <option name="totallyTimeSpent" value="57465000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1920" height="1080" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.6703755" visible="true" weight="0.16187434" />
       <window_info id="Structure" order="1" weight="0.25" />
@@ -693,16 +699,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Scene/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="21" column="48" selection-start-line="21" selection-start-column="48" selection-end-line="21" selection-end-column="48" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_251.jdk/Contents/Home/src.zip!/java/lang/String.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="218">
@@ -785,8 +781,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Scene/Controller.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="732">
-          <caret line="132" lean-forward="true" selection-start-line="132" selection-end-line="132" />
+        <state relative-caret-position="-1094">
+          <caret line="41" column="33" selection-start-line="41" selection-start-column="25" selection-end-line="41" selection-end-column="33" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Scene/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="20" column="21" selection-start-line="20" selection-start-column="21" selection-end-line="20" selection-end-column="21" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
