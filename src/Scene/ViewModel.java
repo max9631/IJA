@@ -56,7 +56,9 @@ public class ViewModel {
             Stream<JSONObject> jsonLinesStream = jsonLines.stream();
             this.transportLines = jsonLinesStream
                     .map(jsonStop -> {
-                        TransportLine line = new TransportLine((String) jsonStop.get("name"));
+                        String name = (String) jsonStop.get("name");
+                        Number interval = (Number) jsonStop.get("interval");
+                        TransportLine line = new TransportLine(name, interval.doubleValue());
                         JSONArray jsonRoutes = (JSONArray) jsonStop.get("route");
                         Stream<JSONObject> jsonRoutesStream = jsonRoutes.stream();
                         jsonRoutesStream.forEach(jsonRoute -> {
