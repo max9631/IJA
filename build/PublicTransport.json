@@ -260,6 +260,7 @@
   "lines": [
     {
       "name": "1",
+      "interval": 2,
       "route": [
         {
           "stop": "Between 1 and 2 on 1st avenue"
