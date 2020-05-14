@@ -21,6 +21,10 @@ import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.List;
 
+interface SceneDelegate {
+    void resetScene();
+}
+
 public class Controller implements StreetViewDelegate {
     @FXML private Group content;
     @FXML private Slider timeMultiplierSlider;
@@ -34,6 +38,8 @@ public class Controller implements StreetViewDelegate {
     private Dispatching dispatching;
 
     private StreetView selectedStreetView;
+
+    public SceneDelegate delegate;
 
     void viewDidLoad(ViewModel model) {
         AbstractMap.SimpleImmutableEntry<Integer, Integer> time = getDefaultTime(timeText.getText());
@@ -100,6 +106,9 @@ public class Controller implements StreetViewDelegate {
     }
 
     @FXML public void resetScene() {
+        if (delegate != null) {
+            delegate.resetScene();
+        }
     }
 
     private void deselectStreet() {
