@@ -1,51 +1,46 @@
 package Scene;
 
-import com.sun.org.apache.xml.internal.security.encryption.CipherReference;
+import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
+import javafx.scene.text.Text;
 import model.Coordinate;
 import model.Stop;
 import model.Street;
 import model.TransportLine;
 
+
+import java.lang.reflect.Array;
 import java.util.AbstractMap;
+import java.util.ArrayList;
 import java.util.List;
 
-interface BusViewDelegate{
-    Circle getBus();
-}
-
-public class BusView extends Circle {
+public class BusView {
     private TransportLine line;
-    private Coordinate startPos;
+    private Coordinate position;
     private double velocity = 10;
-    private Circle bus;
-    private String busId;
+    private Circle busIcon;
+    private Text busText;
 
     private Paint paint = new Color(1.0, 0,0,1.0);
 
 
     public BusView(TransportLine line) {
-        super(8, new Color(1.0, 0.0,0.0, 1.0));
-        busId = line.getId();
         this.line = line;
 
         List<AbstractMap.SimpleImmutableEntry<Street, Stop>> tmpLineInfo = line.getRoute();
-        startPos = tmpLineInfo.get(0).getKey().begin();
-        bus = new Circle(startPos.getX(), startPos.getY(), 8, paint);
+        position = tmpLineInfo.get(0).getKey().begin();
+        busText = new Text(position.getX()-3,position.getY()+5,line.getId());
+        busIcon = new Circle(position.getX(), position.getY(), 8, paint);
     }
 
-    public Coordinate getStartPos() {
-        return startPos;
-    }
 
-    public String getBusId() {
-        return busId;
-    }
-
-    public Circle getBus(){
-        return this.bus;
+    public List<Node> getBus(){
+        ArrayList<Node> busInfo = new ArrayList<Node>();
+        busInfo.add(this.busIcon);
+        busInfo.add(this.busText);
+        return busInfo;
     }
 }
 
