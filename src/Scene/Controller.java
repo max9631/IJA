@@ -5,6 +5,8 @@ import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
 import javafx.scene.control.Slider;
+import javafx.scene.input.ScrollEvent;
+import javafx.scene.input.ZoomEvent;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
@@ -38,7 +40,7 @@ public class Controller implements StreetViewDelegate {
         model.getStops().forEach(this::add);
         model.getTransportLines().forEach(this::add);
         timeMultiplierSlider.valueProperty().addListener(this::didDragTimeMultiplyer);
-        timeMultiplaerText.setText(timeMultiplierSlider.getValue()+"");
+        timeMultiplaerText.setText(((int) timeMultiplierSlider.getValue())+"");
         this.model = model;
     }
 
@@ -75,6 +77,15 @@ public class Controller implements StreetViewDelegate {
         this.content.getChildren().add(view);
     }
 
+    @FXML
+    public void didZoom(ScrollEvent event) {
+        event.consume();
+        double zoom = event.getDeltaY() > 0 ? 1.1 : 0.9;
+        content.setScaleX(zoom*content.getScaleX());
+        content.setScaleY(zoom*content.getScaleY());
+        content.layout();
+    }
+    
     void add(TransportLine line){
         BusView view = new BusView(line);
         this.content.getChildren().addAll(view.getBus());
@@ -87,6 +98,6 @@ public class Controller implements StreetViewDelegate {
 
     public void didDragTimeMultiplyer(ObservableValue observable, Number oldValue, Number newValue) {
         System.out.println("current time multiplier: " + newValue);
-        timeMultiplaerText.setText(newValue.toString());
+        timeMultiplaerText.setText(newValue.intValue()+"");
     }
 }
