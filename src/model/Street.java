@@ -10,6 +10,7 @@ public class Street {
     private String id;
     private List<Coordinate> coordinates;
     private List<Stop> stops;
+    private double frictionCoeficient = 1;
 
     public Street(String id, List<Coordinate> coordinates) {
         this.id = id;
@@ -41,6 +42,14 @@ public class Street {
 
     public List<Stop> getStops() {
         return this.stops;
+    }
+
+    public double getFrictionCoeficient() {
+        return frictionCoeficient;
+    }
+
+    public void setFrictionCoeficient(double frictionCoeficient) {
+        this.frictionCoeficient = frictionCoeficient;
     }
 
     public boolean addStop(Stop stop) {
