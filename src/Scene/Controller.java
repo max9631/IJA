@@ -99,6 +99,9 @@ public class Controller implements StreetViewDelegate {
         deselectStreet();
     }
 
+    @FXML public void resetScene() {
+    }
+
     private void deselectStreet() {
         if (selectedStreetView != null) {
             selectedStreetView.lines.forEach(line -> line.setStroke(Color.LIGHTGRAY));
