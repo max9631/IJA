@@ -7,7 +7,9 @@ import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
-public class Main extends Application {
+public class Main extends Application implements SceneDelegate {
+
+    private Stage primaryStage;
 
     public void listen(Observable o) {
 
@@ -15,21 +17,32 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Scene.fxml"));
-        BorderPane pane = loader.load();
-
-        Controller controller = loader.getController();
-        controller.viewDidLoad(new ViewModel());
-
-        Scene scene = new Scene(pane, 1000, 800);
-
-        primaryStage.setTitle("xsalih01 a xvever12");
-        primaryStage.setScene(scene);
-        primaryStage.show();
+        this.primaryStage = primaryStage;
+        resetScene();
     }
 
 
     public static void main(String[] args) {
         launch(args);
+    }
+
+    @Override
+    public void resetScene() {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Scene.fxml"));
+        try {
+            BorderPane pane = loader.load();
+            Controller controller = loader.getController();
+            controller.viewDidLoad(new ViewModel());
+            controller.delegate = this;
+
+            Scene scene = new Scene(pane, 1000, 800);
+
+            primaryStage.setTitle("xsalih01 a xvever12");
+            primaryStage.setScene(scene);
+            primaryStage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 }
