@@ -25,7 +25,7 @@ interface SceneDelegate {
     void resetScene();
 }
 
-public class Controller implements StreetViewDelegate {
+public class Controller implements StreetViewDelegate, BusViewDelegate {
     @FXML private Group content;
     @FXML private Slider timeMultiplierSlider;
     @FXML private Text timeMultiplaerText;
@@ -41,6 +41,7 @@ public class Controller implements StreetViewDelegate {
     private StreetView selectedStreetView;
 
     public SceneDelegate delegate;
+    private BusView selectedBusView;
 
     void viewDidLoad(ViewModel model) {
         AbstractMap.SimpleImmutableEntry<Integer, Integer> time = getDefaultTime(timeText.getText());
@@ -91,6 +92,7 @@ public class Controller implements StreetViewDelegate {
 
     void add(TransportLine line){
         BusView view = new BusView(line, this.dispatching);
+        view.delegate = this;
         dispatching.addBus(view);
         this.content.getChildren().addAll(view.getBus());
     }
@@ -110,6 +112,7 @@ public class Controller implements StreetViewDelegate {
     @FXML public void didDeselectStreet(Event event) {
         event.consume();
         deselectStreet();
+        deselectBus();
     }
 
     @FXML public void resetScene() {
@@ -134,6 +137,21 @@ public class Controller implements StreetViewDelegate {
         traficJamSlider.setValue(street.getStreet().getFrictionCoeficient());
         this.setJamCoeficient(street, street.getStreet().getFrictionCoeficient());
         jamCoeficientView.setOpacity(1);
+    }
+
+    @Override
+    public void userSelected(BusView view) {
+        deselectBus();
+        view.getBusIcon().setStroke(Color.BLUE);
+        itinerary.setText(view.getStopItinerary());
+    }
+
+    private void deselectBus() {
+        if (selectedBusView != null) {
+            selectedBusView.getBusIcon().setStroke(Color.RED);
+        }
+        itinerary.setText("");
+
     }
 
     private void setJamCoeficient(StreetView street, double jamCoeficient) {

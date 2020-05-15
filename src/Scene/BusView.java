@@ -1,9 +1,11 @@
 package Scene;
 
+import javafx.event.Event;
 import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
 import model.Coordinate;
 import model.Stop;
@@ -11,10 +13,16 @@ import model.Street;
 import model.TransportLine;
 
 
+import java.awt.event.MouseEvent;
 import java.lang.reflect.Array;
-import java.util.AbstractMap;
+import java.util.AbstractMap.SimpleImmutableEntry;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+
+interface BusViewDelegate {
+    void userSelected(BusView view);
+}
 
 public class BusView {
     private TransportLine line;
@@ -26,6 +34,8 @@ public class BusView {
     private Dispatching dispatcher;
     private Paint paint = new Color(1.0, 0, 0, 1.0);
 
+    public BusViewDelegate delegate;
+
     public BusView(TransportLine line, Dispatching dispatcher) {
         this.line = line;
 
@@ -34,6 +44,7 @@ public class BusView {
         busText = new Text(position.getX()-3,position.getY()+5,line.getId());
         textPosition = new Coordinate(position.getX()-3, position.getY()+5);
         busIcon = new Circle(position.getX(), position.getY(), 8, paint);
+        busIcon.setOnMouseClicked(this::userSelectedBus);
     }
 
     public Coordinate getPosition() {
@@ -69,11 +80,30 @@ public class BusView {
         return busText;
     }
 
+    public String getStopItinerary() {
+        List<String> routes = line
+                .getRoute()
+                .stream()
+                .filter(entry -> entry.getValue() != null)
+                .map(entry -> entry.getValue().getId() + ": ") // TODO: Add estimated arival time
+                .collect(Collectors.toList());
+        System.out.println(String.join("\n\n", routes));
+        return String.join("\n", routes);
+    }
+
     public List<Node> getBus(){
         ArrayList<Node> busInfo = new ArrayList<Node>();
         busInfo.add(this.busIcon);
         busInfo.add(this.busText);
         return busInfo;
+    }
+
+    public void userSelectedBus(Event event) {
+        event.consume();
+        if (delegate != null) {
+            delegate.userSelected(this);
+        }
+
     }
 }
 
