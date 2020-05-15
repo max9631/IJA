@@ -23,6 +23,7 @@ public class Dispatching extends TimerTask {
     private ArrayList<BusView> busLines;
     private Timer timer;
 
+    private int busTime = 0;
     private boolean clockInit = true;
 
     public Dispatching(int hours, int minutes, Text timeText, Slider timeMultiplierSlider, Controller controller) {
@@ -39,7 +40,8 @@ public class Dispatching extends TimerTask {
     }
 
     public void addBus(BusView busLine){
-        this.busLines.add(busLine);
+            this.busLines.add(busLine);
+            busLine.getLine().calculateRoute();
     }
     
     public void cancelTimer(){
@@ -49,63 +51,64 @@ public class Dispatching extends TimerTask {
     @Override
     public void run() {
         Platform.runLater(() -> {
-        this.minutes += 1*this.timeMultiplierSlider.getValue();
+            this.busTime += 1*this.timeMultiplierSlider.getValue();
+            this.minutes += 1*this.timeMultiplierSlider.getValue();
 
-        if(this.minutes >= 60){
-            this.minutes = this.minutes % 60;
-            this.hours++;
-        }
-        if(this.hours == 24){
-            this.hours = 0;
-        }
+            if(this.minutes >= 60){
+                this.minutes = this.minutes % 60;
+                this.hours++;
+            }
+            if(this.hours == 24){
+                this.hours = 0;
+            }
 
-        String hrs, mins;
-        if(this.hours < 10){
-            hrs = "0" + this.hours;
-        }
-        else{
-            hrs = this.hours + "";
-        }
-        if(this.minutes < 10){
-            mins = "0" + this.minutes;
-        }
-        else{
-            mins = this.minutes + "";
-        }
+            String hrs, mins;
+            if(this.hours < 10){
+                hrs = "0" + this.hours;
+            }
+            else{
+                hrs = this.hours + "";
+            }
+            if(this.minutes < 10){
+                mins = "0" + this.minutes;
+            }
+            else{
+                mins = this.minutes + "";
+            }
 
-        for (BusView line: this.busLines) {
-            Coordinate position = line.getPosition();
-            Coordinate textPosition = line.getTextPosition();
+            for (BusView line: this.busLines) {
+                Coordinate position = line.getPosition();
+                Coordinate textPosition = line.getTextPosition();
 
-            int multiplier = 1;
-            multiplier *= line.getVelocity()*this.timeMultiplierSlider.getValue();
+                int multiplier = 1;
+                multiplier *= line.getVelocity()*this.timeMultiplierSlider.getValue();
 
-            line.getBusIcon().setCenterX(position.getX()+multiplier);
-            line.getBusIcon().setCenterY(position.getY()+multiplier);
-            line.getBusText().setX(textPosition.getX()+multiplier);
-            line.getBusText().setY(textPosition.getY()+multiplier);
+                line.getBusIcon().setCenterX(position.getX()+multiplier);
+                line.getBusIcon().setCenterY(position.getY()+multiplier);
+                line.getBusText().setX(textPosition.getX()+multiplier);
+                line.getBusText().setY(textPosition.getY()+multiplier);
 
-            line.setPosition(new Coordinate(position.getX()+multiplier, position.getY()+multiplier), new Coordinate(textPosition.getX()+multiplier, textPosition.getY()+multiplier));
+                line.setPosition(new Coordinate(position.getX()+multiplier, position.getY()+multiplier), new Coordinate(textPosition.getX()+multiplier, textPosition.getY()+multiplier));
 
-            System.out.print("Line: " + " " + line.getBusText().getText() + " X: ");
-            System.out.println(position.getX() + " Y: " + position.getY());
-        }
+                System.out.print("Line: " + " " + line.getBusText().getText() + " X: ");
+                System.out.println(position.getX() + " Y: " + position.getY());
+            }
 
-        if(!clockInit) {
-            ArrayList<BusView> busInfo = new ArrayList<>(this.busLines);
-            for (BusView line : busInfo) {
-                double intervalValue = line.getLine().getInterval();
-                if (minutes % (int) intervalValue == 0) {
-                    System.out.println("Linka: " + line.getBusText().getText() + " " + " Out!");
+            if(!clockInit) {
+                ArrayList<BusView> busInfo = new ArrayList<>(this.busLines);
+                for (BusView line : busInfo) {
+                    double intervalValue = line.getLine().getInterval();
+                    if (busTime % (int) intervalValue == 0) {
+                        System.out.println("Linka: " + line.getBusText().getText() + " " + " Out!");
 
-                    this.controller.add(line.getLine());
+                        this.controller.add(line.getLine());
 
+                    }
                 }
             }
-        }
 
-        timeText.setText(hrs+":"+mins);
-        clockInit = false;
+            timeText.setText(hrs+":"+mins);
+            clockInit = false;
         });
     }
 }

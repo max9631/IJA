@@ -8,11 +8,13 @@ public class TransportLine{
     private String id;
     private List<SimpleImmutableEntry<Street, Stop>> route;
     private double interval;
+    private ArrayList<Coordinate> routeCoords;
 
     public TransportLine(String id, double interval) {
         this.id = id;
         this.interval = interval;
         this.route = new ArrayList<>();
+        this.routeCoords = new ArrayList<>();
     }
 
     private Street lastStreet() {
@@ -21,6 +23,11 @@ public class TransportLine{
             return null;
         }
         return route.get(size - 1).getKey();
+    }
+
+
+    public ArrayList<Coordinate> calculateRoute (){
+        return new ArrayList<>();
     }
 
 
