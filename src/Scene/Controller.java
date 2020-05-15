@@ -21,7 +21,7 @@ import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.List;
 
-interface SceneDelegate {
+interface ControllerDelegate {
     void resetScene();
 }
 
@@ -40,8 +40,9 @@ public class Controller implements StreetViewDelegate, BusViewDelegate {
 
     private StreetView selectedStreetView;
 
-    public SceneDelegate delegate;
     private BusView selectedBusView;
+
+    public ControllerDelegate delegate;
 
     void viewDidLoad(ViewModel model) {
         AbstractMap.SimpleImmutableEntry<Integer, Integer> time = getDefaultTime(timeText.getText());
