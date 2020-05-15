@@ -461,7 +461,7 @@
   "lines": [
     {
       "name": "1",
-      "interval": 5,
+      "interval": 10,
       "route": [
         {
           "stop": "Between 1 and 2 on 1st avenue"
@@ -518,7 +518,7 @@
     },
     {
       "name": "2",
-      "interval": 4,
+      "interval": 5,
       "route": [
         {
           "stop": "Between 7 and 8 on 1st avenue"
