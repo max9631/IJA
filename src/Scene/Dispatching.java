@@ -19,7 +19,6 @@ public class Dispatching extends TimerTask {
     private Text timeText;
     private Slider timeMultiplierSlider;
     private Controller controller;
-    private int lastBusId = 0;
 
     private int hours, minutes;
     private ArrayList<BusView> busLines;
@@ -43,11 +42,7 @@ public class Dispatching extends TimerTask {
 
         this.timer = new Timer(true);
         long delay = 1000;
-        timer.schedule(this, 0, delay);
-    }
-
-    public ArrayList<BusView> getBusLines() {
-        return busLines;
+        timer.schedule(this, delay, delay);
     }
 
     public boolean addBus(BusView busLine, int time, double interval){
@@ -128,16 +123,8 @@ public class Dispatching extends TimerTask {
         });
     }
 
-    public void setLastBusId(int lastBusId) {
-        this.lastBusId = lastBusId;
-    }
-
-    public int getLastBusId() {
-        return lastBusId;
-    }
-
     private void busUpdate(BusView line){
-        Coordinate position = line.getPosition();
+        Coordinate position = line.getNextPoint();
         Coordinate textPosition = line.getTextPosition();
 
         int multiplier = 1;
@@ -146,7 +133,7 @@ public class Dispatching extends TimerTask {
         List<Coordinate> lastStreetCoords = line.getLine().lastStreet().getCoordinates();
         Coordinate endCoordinates = lastStreetCoords.get(lastStreetCoords.size()-1);
 
-        if(endCoordinates.getX() <= position.getX() && endCoordinates.getY() <= position.getY()){
+        if(position == null){
             ArrayList<BusView> newLines = new ArrayList<>();
             for(BusView lines : this.busLines){
                 if(lines == line){
@@ -159,10 +146,10 @@ public class Dispatching extends TimerTask {
             return;
         }
 
-        line.getBusIcon().setCenterX(position.getX()+multiplier);
-        line.getBusIcon().setCenterY(position.getY()+multiplier);
-        line.getBusText().setX(textPosition.getX()+multiplier);
-        line.getBusText().setY(textPosition.getY()+multiplier);
+        line.getBusIcon().setCenterX(position.getX()-10+multiplier);
+        line.getBusIcon().setCenterY(position.getY()-10+multiplier);
+        line.getBusText().setX(position.getX()-13+multiplier);
+        line.getBusText().setY(position.getY()-5+multiplier);
 
         line.setPosition(new Coordinate(position.getX()+multiplier, position.getY()+multiplier), new Coordinate(textPosition.getX()+multiplier, textPosition.getY()+multiplier));
 

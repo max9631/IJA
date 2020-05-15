@@ -69,8 +69,7 @@ public class BusView {
             c = coord;
         }
 
-        List<SimpleImmutableEntry<Street, Stop>> tmpLineInfo = line.getRoute();
-        position = tmpLineInfo.get(0).getKey().begin();
+        position = getFirstPoint();
         //System.out.println("Multiplier is: " + timeMultiplier);
         //timeMultiplier -= 1;
         //position.setX(position.getX()+(int)timeMultiplier);
@@ -82,7 +81,25 @@ public class BusView {
         busIcon.setOnMouseClicked(this::userSelectedBus);
         this.startTime = startTime;
     }
-    
+
+    public Coordinate getFirstPoint(){
+        return this.routeCoords.get(0);
+    }
+
+    private int coordIndex = 1;
+
+    public int getCoordIndex() {
+        return coordIndex;
+    }
+
+    public Coordinate getNextPoint(){
+        if(this.routeCoords.size() <= coordIndex){
+            return null;
+        }
+        return this.routeCoords.get(this.coordIndex++);
+    }
+
+
     public void end(){
         this.line = null;
         this.position = null;

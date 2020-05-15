@@ -101,6 +101,7 @@ public class Controller implements StreetViewDelegate, BusViewDelegate {
 
     void add(TransportLine line, int value, int busTime){
         BusView view = new BusView(line, busTime, value);
+        view.delegate = this;
         boolean add = dispatching.addBus(view, busTime, view.getLine().getInterval());
         if(add){
             this.content.getChildren().addAll(view.getBus());
