@@ -125,7 +125,7 @@ public class Dispatching extends TimerTask {
 
     private void busUpdate(BusView line){
         if(line.getCoordIndex() == 0){
-            line.setNextPoint();
+            line.setCurrentPoint();
         }
         Coordinate currPosition = line.getPosition();
         Coordinate followPosition = line.getCurrentPoint();
@@ -152,13 +152,13 @@ public class Dispatching extends TimerTask {
         if(Integer.parseInt(line.getLine().getId()) != 1) {
             System.out.println(line.getLine().getId() + " : " + line.getCoordIndex());
             ArrayList<Coordinate> coords = line.getRouteCoords();
-            //System.out.println("X: " + coords.get(minutes-1).getX() + " AND " + coords.get(minutes).getX());
-            //System.out.println("Y: " + coords.get(minutes-1).getY() + " AND " + coords.get(minutes).getY());
-            //System.out.println("curr X: " + (currPosition.getX()-line.getVelocity()) + ", next pos X: " + followPosition.getX());
+//            System.out.println("X: " + coords.get(minutes-1).getX() + " AND " + coords.get(minutes).getX());
+//            System.out.println("Y: " + coords.get(minutes-1).getY() + " AND " + coords.get(minutes).getY());
+            System.out.println("curr X: " + (currPosition.getX()-line.getVelocity()) + ", next pos X: " + followPosition.getX());
             System.out.println("curr Y: " + currPosition.getY() + ", next pos Y: " + followPosition.getY());
         }
 
-        if(currPosition.getX() != followPosition.getX() && currPosition.getY() == followPosition.getY()){
+        if(currPosition.getX() != followPosition.getX()){
             //zmena na x
             if(currPosition.getX() > followPosition.getX()){
                 //zprava doleva
@@ -167,7 +167,7 @@ public class Dispatching extends TimerTask {
                 int Y = currPosition.getY();
                 //v pripade zatacky vypocitat "prejezd"
                 if(X >= currPosition.getX()){
-                    line.setNextPoint();
+                    line.setCurrentPoint();
                     if(line.getCurrentPoint() != null) {
                         X = line.getCurrentPoint().getX();
                     }
@@ -182,7 +182,7 @@ public class Dispatching extends TimerTask {
                 int Y = currPosition.getY();
                 //v pripade zatacky vypocitat "prejezd"
                 if(X <= currPosition.getX()){
-                    line.setNextPoint();
+                    line.setCurrentPoint();
                     if(line.getCurrentPoint() != null) {
                         X = line.getCurrentPoint().getX();
                     }
@@ -192,7 +192,7 @@ public class Dispatching extends TimerTask {
                 newPosition.setY(Y);
             }
         }
-        else if(currPosition.getY() != followPosition.getY() && currPosition.getX() == followPosition.getX()) {
+        else{
             if(Integer.parseInt(line.getLine().getId()) != 1) System.out.println("Here!");
             //zmena na y
             if(currPosition.getY() > followPosition.getY()){
@@ -201,7 +201,7 @@ public class Dispatching extends TimerTask {
                 int Y = currPosition.getY()-line.getVelocity();
                 //v pripade zatacky vypocitat "prejezd"
                 if(Y <= currPosition.getY()){
-                    line.setNextPoint();
+                    line.setCurrentPoint();
                     if(line.getCurrentPoint() != null) {
                         //Y = line.getCurrentPoint().getY();
                     }
@@ -216,7 +216,7 @@ public class Dispatching extends TimerTask {
                 int Y = currPosition.getY()+line.getVelocity();
                 //v pripade zatacky vypocitat "prejezd"
                 if(Y >= currPosition.getY()){
-                    line.setNextPoint();
+                    line.setCurrentPoint();
                     if(line.getCurrentPoint() != null) {
                         //Y = line.getCurrentPoint().getY();
                     }
@@ -226,15 +226,6 @@ public class Dispatching extends TimerTask {
                 newPosition.setY(Y);
             }
         }
-        else{
-            if(currPosition.equals(followPosition)){
-                currPosition = followPosition;
-                followPosition = line.getNextPoint();
-            }
-            newPosition.setX(followPosition.getX());
-            newPosition.setY(followPosition.getY());
-        }
-
         if(Integer.parseInt(line.getLine().getId()) != 1)
             System.out.println("NEW ONES: " + newPosition.getX() + " " + newPosition.getY());
         line.getBusIcon().setCenterX((newPosition.getX())*multiplier); line.getBusIcon().setCenterY((newPosition.getY())*multiplier);

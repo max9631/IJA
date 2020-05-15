@@ -97,24 +97,20 @@ public class BusView {
         return coordIndex;
     }
 
-    private Coordinate nextPoint;
+    private Coordinate currentPoint;
 
-    public void setNextPoint(){
+    public void setCurrentPoint(){
+        coordIndex++;
         if(this.routeCoords.size() <= coordIndex){
-            nextPoint = null;
+            currentPoint = null;
         }
-        nextPoint = routeCoords.get(this.coordIndex++);
+        currentPoint = routeCoords.get(this.coordIndex);
+        coordIndex++;
     }
 
-    public Coordinate getNextPoint() {
-        return nextPoint;
-    }
 
     public Coordinate getCurrentPoint(){
-        if(this.routeCoords.size() <= coordIndex){
-            return null;
-        }
-        return this.routeCoords.get(this.coordIndex);
+        return this.currentPoint;
     }
 
 
