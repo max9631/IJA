@@ -80,6 +80,7 @@ public class BusView {
         textPosition = new Coordinate(position.getX()-3, position.getY()+5);
         busIcon = new Circle(position.getX(), position.getY(), 8, paint);
         busIcon.setOnMouseClicked(this::userSelectedBus);
+        busText.setOnMouseClicked(this::userSelectedBus);
         this.startTime = startTime;
     }
     
