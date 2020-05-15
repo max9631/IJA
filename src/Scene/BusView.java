@@ -31,6 +31,7 @@ public class BusView {
     private double velocity = 10;
     private Circle busIcon;
     private Text busText;
+    private int startTime;
     private Dispatching dispatcher;
     private Paint paint = new Color(1.0, 0, 0, 1.0);
     private ArrayList<Coordinate> routeCoords;
@@ -38,7 +39,7 @@ public class BusView {
 
     public BusViewDelegate delegate;
 
-    public BusView(TransportLine line, Dispatching dispatcher) {
+    public BusView(TransportLine line, int startTime, double timeMultiplier) {
         this.line = line;
         SimpleImmutableEntry<Street, Stop> lastEntry = null;
         routeCoords = new ArrayList<>();
@@ -70,10 +71,26 @@ public class BusView {
 
         List<SimpleImmutableEntry<Street, Stop>> tmpLineInfo = line.getRoute();
         position = tmpLineInfo.get(0).getKey().begin();
+        //System.out.println("Multiplier is: " + timeMultiplier);
+        //timeMultiplier -= 1;
+        //position.setX(position.getX()+(int)timeMultiplier);
+        //position.setY(position.getY()+(int)timeMultiplier);
+
         busText = new Text(position.getX()-3,position.getY()+5,line.getId());
         textPosition = new Coordinate(position.getX()-3, position.getY()+5);
         busIcon = new Circle(position.getX(), position.getY(), 8, paint);
         busIcon.setOnMouseClicked(this::userSelectedBus);
+        this.startTime = startTime;
+    }
+    
+    public void end(){
+        this.line = null;
+        this.position = null;
+        this.textPosition = null;
+        this.busIcon = null;
+        this.busText = null;
+        this.dispatcher = null;
+        this.paint = null;
     }
 
     public Coordinate getPosition() {

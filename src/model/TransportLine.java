@@ -10,6 +10,16 @@ public class TransportLine{
     private String id;
     private List<SimpleImmutableEntry<Street, Stop>> route;
     private double interval;
+    private int lastGen = 0;
+
+
+    public void setLastGen(int busTime) {
+        this.lastGen = busTime;
+    }
+
+    public int getLastGen() {
+        return lastGen;
+    }
 
     public TransportLine(String id, double interval) {
         this.id = id;
@@ -17,7 +27,7 @@ public class TransportLine{
         this.route = new ArrayList<>();
     }
 
-    private Street lastStreet() {
+    public Street lastStreet() {
         int size = route.size();
         if (size == 0) {
             return null;
@@ -27,6 +37,7 @@ public class TransportLine{
 
 
     public ArrayList<Coordinate> calculateRoute (){
+
         return new ArrayList<>();
     }
 
