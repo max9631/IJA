@@ -10,12 +10,10 @@ public class Routing {
         Coordinate C = street2.getCoordinates().get(0);
         Coordinate D = street2.getCoordinates().get(street1.getCoordinates().size() - 1);
 
-        // Line AB represented as a1x + b1y = c1
         double a1 = B.getY() - A.getY();
         double b1 = A.getX() - B.getX();
         double c1 = a1*(A.getX()) + b1*(A.getY());
 
-        // Line CD represented as a2x + b2y = c2
         double a2 = D.getY() - C.getY();
         double b2 = C.getX() - D.getX();
         double c2 = a2*(C.getX())+ b2*(C.getY());
