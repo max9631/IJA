@@ -89,10 +89,6 @@ public class BusView {
 
     private int coordIndex = 1;
 
-    public int getCoordIndex() {
-        return coordIndex;
-    }
-
     public Coordinate getNextPoint(){
         if(this.routeCoords.size() <= coordIndex){
             return null;
