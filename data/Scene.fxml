@@ -46,7 +46,7 @@
                      </children>
                   </AnchorPane>
                   <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#resetScene" text="reset" />
-                  <Text fx:id="itinerary" layoutX="20.0" layoutY="196.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text&#10;ifn&#10;ogm&#10;" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="183.0">
+                  <Text fx:id="itinerary" layoutX="20.0" layoutY="196.0" strokeType="OUTSIDE" strokeWidth="0.0" text="&#10;&#10;Text Text Tex&#10;" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="183.0">
                      <font>
                         <Font size="10.0" />
                      </font>
