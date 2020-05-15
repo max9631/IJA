@@ -108,9 +108,6 @@ public class Controller implements StreetViewDelegate, BusViewDelegate {
         }
     }
 
-    public Group getContent() {
-        return content;
-    }
 
     @FXML public void didZoom(ScrollEvent event) {
         event.consume();
