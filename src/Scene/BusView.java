@@ -28,7 +28,7 @@ public class BusView {
     private TransportLine line;
     private Coordinate position;
     private Coordinate textPosition;
-    private double velocity = 10;
+    private int velocity = 10;
     private Circle busIcon;
     private Text busText;
     private int startTime;
@@ -87,13 +87,34 @@ public class BusView {
         return this.routeCoords.get(0);
     }
 
-    private int coordIndex = 1;
+    public ArrayList<Coordinate> getRouteCoords() {
+        return routeCoords;
+    }
 
-    public Coordinate getNextPoint(){
+    private int coordIndex = 0;
+
+    public int getCoordIndex() {
+        return coordIndex;
+    }
+
+    private Coordinate nextPoint;
+
+    public void setNextPoint(){
+        if(this.routeCoords.size() <= coordIndex){
+            nextPoint = null;
+        }
+        nextPoint = routeCoords.get(this.coordIndex++);
+    }
+
+    public Coordinate getNextPoint() {
+        return nextPoint;
+    }
+
+    public Coordinate getCurrentPoint(){
         if(this.routeCoords.size() <= coordIndex){
             return null;
         }
-        return this.routeCoords.get(this.coordIndex++);
+        return this.routeCoords.get(this.coordIndex);
     }
 
 
@@ -111,13 +132,6 @@ public class BusView {
         return position;
     }
 
-    public Coordinate getTextPosition() {
-        return textPosition;
-    }
-
-    public void setBusIcon(Coordinate position){
-        busIcon = new Circle(position.getX(), position.getY(), 8, paint);
-    }
 
     public Circle getBusIcon() {
         return busIcon;
@@ -127,13 +141,12 @@ public class BusView {
         return line;
     }
 
-    public double getVelocity() {
+    public int getVelocity() {
         return velocity;
     }
 
-    public void setPosition(Coordinate position, Coordinate textPosition) {
+    public void setPosition(Coordinate position) {
         this.position = position;
-        this.textPosition = textPosition;
     }
 
     public Text getBusText() {

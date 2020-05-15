@@ -94,7 +94,7 @@ public class Controller implements StreetViewDelegate, BusViewDelegate {
     void add(TransportLine line){
         BusView view = new BusView(line, 0, 1);
         view.delegate = this;
-        dispatching.addBus(view, 0, view.getLine().getInterval());
+        dispatching.addBus(view, 0, view.getLine().getInterval(), Integer.parseInt(view.getLine().getId()));
         this.content.getChildren().addAll(view.getBus());
     }
 
@@ -102,12 +102,15 @@ public class Controller implements StreetViewDelegate, BusViewDelegate {
     void add(TransportLine line, int value, int busTime){
         BusView view = new BusView(line, busTime, value);
         view.delegate = this;
-        boolean add = dispatching.addBus(view, busTime, view.getLine().getInterval());
+        boolean add = dispatching.addBus(view, busTime, view.getLine().getInterval(), Integer.parseInt(view.getLine().getId()));
         if(add){
             this.content.getChildren().addAll(view.getBus());
         }
     }
 
+    public Group getContent() {
+        return content;
+    }
 
     @FXML public void didZoom(ScrollEvent event) {
         event.consume();
@@ -183,5 +186,12 @@ public class Controller implements StreetViewDelegate, BusViewDelegate {
     public void didDragJamCoeficient(ObservableValue observable, Number oldValue, Number newValue) {
         jamCoeficientText.setText(newValue.doubleValue()+"");
         setJamCoeficient(selectedStreetView, newValue.doubleValue());
+    }
+
+    public void removeBus(BusView line) {
+        if(line.equals(selectedBusView)) {
+            deselectBus();
+        }
+        content.getChildren().removeAll(line.getBus());
     }
 }

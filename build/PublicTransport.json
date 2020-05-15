@@ -446,7 +446,7 @@
     },
     {
       "name": "2",
-      "interval": 5,
+      "interval": 10,
       "route": [
         {
           "stop": "Between 3 and 4 on 3rd avenue"

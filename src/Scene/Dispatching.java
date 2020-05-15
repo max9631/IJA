@@ -25,7 +25,7 @@ public class Dispatching extends TimerTask {
     private Timer timer;
     private ReentrantLock lock;
 
-    private List<AbstractMap.SimpleImmutableEntry<Integer, Double>> busesDeparted;
+    private List<AbstractMap.SimpleImmutableEntry<Integer,AbstractMap.SimpleImmutableEntry<Integer, Double>>> busesDeparted;
 
     private int busTime = 0;
     private boolean clockInit = true;
@@ -45,13 +45,13 @@ public class Dispatching extends TimerTask {
         timer.schedule(this, delay, delay);
     }
 
-    public boolean addBus(BusView busLine, int time, double interval){
-        for (AbstractMap.SimpleImmutableEntry<Integer, Double> record : this.busesDeparted){
-            if (record.getKey() == time && record.getValue() == interval) {
+    public boolean addBus(BusView busLine, int time, double interval, int lineId){
+        for (AbstractMap.SimpleImmutableEntry<Integer, AbstractMap.SimpleImmutableEntry<Integer, Double>> record : this.busesDeparted){
+            if ((record.getKey() == time && record.getValue().getValue() == interval) && lineId == record.getKey()) {
                 return false;
             }
         }
-        busesDeparted.add(new AbstractMap.SimpleImmutableEntry<>(time, interval));
+        busesDeparted.add(new AbstractMap.SimpleImmutableEntry<>(lineId ,new AbstractMap.SimpleImmutableEntry<>(time, interval)));
         this.busLines.add(busLine);
         busLine.getLine().calculateRoute();
         return true;
@@ -124,16 +124,16 @@ public class Dispatching extends TimerTask {
     }
 
     private void busUpdate(BusView line){
-        Coordinate position = line.getNextPoint();
-        Coordinate textPosition = line.getTextPosition();
+        if(line.getCoordIndex() == 0){
+            line.setNextPoint();
+        }
+        Coordinate currPosition = line.getPosition();
+        Coordinate followPosition = line.getCurrentPoint();
 
         int multiplier = 1;
-        multiplier *= line.getVelocity()*this.timeMultiplierSlider.getValue();
+        multiplier *= this.timeMultiplierSlider.getValue();
 
-        List<Coordinate> lastStreetCoords = line.getLine().lastStreet().getCoordinates();
-        Coordinate endCoordinates = lastStreetCoords.get(lastStreetCoords.size()-1);
-
-        if(position == null){
+        if(followPosition == null){
             ArrayList<BusView> newLines = new ArrayList<>();
             for(BusView lines : this.busLines){
                 if(lines == line){
@@ -142,16 +142,105 @@ public class Dispatching extends TimerTask {
                 newLines.add(lines);
             }
             busLines = newLines;
+            controller.removeBus(line);
             line.end();
             return;
         }
 
-        line.getBusIcon().setCenterX(position.getX()-10+multiplier);
-        line.getBusIcon().setCenterY(position.getY()-10+multiplier);
-        line.getBusText().setX(position.getX()-13+multiplier);
-        line.getBusText().setY(position.getY()-5+multiplier);
+        Coordinate newPosition = new Coordinate(0, 0);
 
-        line.setPosition(new Coordinate(position.getX()+multiplier, position.getY()+multiplier), new Coordinate(textPosition.getX()+multiplier, textPosition.getY()+multiplier));
+        if(Integer.parseInt(line.getLine().getId()) != 1) {
+            System.out.println(line.getLine().getId() + " : " + line.getCoordIndex());
+            ArrayList<Coordinate> coords = line.getRouteCoords();
+            //System.out.println("X: " + coords.get(minutes-1).getX() + " AND " + coords.get(minutes).getX());
+            //System.out.println("Y: " + coords.get(minutes-1).getY() + " AND " + coords.get(minutes).getY());
+            //System.out.println("curr X: " + (currPosition.getX()-line.getVelocity()) + ", next pos X: " + followPosition.getX());
+            System.out.println("curr Y: " + currPosition.getY() + ", next pos Y: " + followPosition.getY());
+        }
+
+        if(currPosition.getX() != followPosition.getX() && currPosition.getY() == followPosition.getY()){
+            //zmena na x
+            if(currPosition.getX() > followPosition.getX()){
+                //zprava doleva
+                //rychlosti autobusu, zpozdeni
+                int X = currPosition.getX()-line.getVelocity();
+                int Y = currPosition.getY();
+                //v pripade zatacky vypocitat "prejezd"
+                if(X >= currPosition.getX()){
+                    line.setNextPoint();
+                    if(line.getCurrentPoint() != null) {
+                        X = line.getCurrentPoint().getX();
+                    }
+                }
+
+                newPosition.setX(X);
+                newPosition.setY(Y);
+            }
+            else{
+                //zleva doprava
+                int X = currPosition.getX()+line.getVelocity();
+                int Y = currPosition.getY();
+                //v pripade zatacky vypocitat "prejezd"
+                if(X <= currPosition.getX()){
+                    line.setNextPoint();
+                    if(line.getCurrentPoint() != null) {
+                        X = line.getCurrentPoint().getX();
+                    }
+                }
+
+                newPosition.setX(X);
+                newPosition.setY(Y);
+            }
+        }
+        else if(currPosition.getY() != followPosition.getY() && currPosition.getX() == followPosition.getX()) {
+            if(Integer.parseInt(line.getLine().getId()) != 1) System.out.println("Here!");
+            //zmena na y
+            if(currPosition.getY() > followPosition.getY()){
+                //zdola nahoru
+                int X = currPosition.getX();
+                int Y = currPosition.getY()-line.getVelocity();
+                //v pripade zatacky vypocitat "prejezd"
+                if(Y <= currPosition.getY()){
+                    line.setNextPoint();
+                    if(line.getCurrentPoint() != null) {
+                        //Y = line.getCurrentPoint().getY();
+                    }
+                }
+
+                newPosition.setX(X);
+                newPosition.setY(Y);
+            }
+            else{
+                //zhora dolu
+                int X = currPosition.getX();
+                int Y = currPosition.getY()+line.getVelocity();
+                //v pripade zatacky vypocitat "prejezd"
+                if(Y >= currPosition.getY()){
+                    line.setNextPoint();
+                    if(line.getCurrentPoint() != null) {
+                        //Y = line.getCurrentPoint().getY();
+                    }
+                }
+
+                newPosition.setX(X);
+                newPosition.setY(Y);
+            }
+        }
+        else{
+            if(currPosition.equals(followPosition)){
+                currPosition = followPosition;
+                followPosition = line.getNextPoint();
+            }
+            newPosition.setX(followPosition.getX());
+            newPosition.setY(followPosition.getY());
+        }
+
+        if(Integer.parseInt(line.getLine().getId()) != 1)
+            System.out.println("NEW ONES: " + newPosition.getX() + " " + newPosition.getY());
+        line.getBusIcon().setCenterX((newPosition.getX())*multiplier); line.getBusIcon().setCenterY((newPosition.getY())*multiplier);
+        line.getBusText().setX((newPosition.getX()-3)*multiplier); line.getBusText().setY((newPosition.getY()+5)*multiplier);
+
+        line.setPosition(new Coordinate(newPosition.getX()*multiplier, newPosition.getY()*multiplier));
 
         //System.out.print("Line: " + " " + line.getBusText().getText() + " X: ");
         //System.out.println(position.getX() + " Y: " + position.getY());
