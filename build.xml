@@ -1,1 +1,66 @@
-# JavaFX application
+<project name="IJA" basedir="." default="main">
+
+    <property name="src.dir"     value="src"/>
+    <property name="build.dir"   value="build"/>
+    <property name="doc.dir"   value="doc"/>
+    <property name="dest.dir" value="dest"/>
+    <property name="dest.file" value="${dest.dir}/PublicTransport.jar"/>
+
+    <property name="main.class"  value="Scene.Main"/>
+
+
+    <target name="clean">
+        <delete dir="${build.dir}"/>
+    </target>
+
+    <target name="clean-doc">
+        <delete dir="${doc.dir}"/>
+    </target>
+
+    <target name="compile-classes" depends="clean">
+        <mkdir dir="${build.dir}"/>
+        <javac srcdir="${src.dir}" destdir="${build.dir}" debug="true" includeantruntime="false">
+            <classpath>
+                <pathelement path="lib/json-simple-1.1.jar"/>
+            </classpath>
+        </javac>
+        <copy todir="${build.dir}">
+            <fileset dir="${dest.dir}" includes="**/*.fxml"></fileset>
+            <fileset dir="${dest.dir}" includes="**/*.json"></fileset>
+        </copy>
+    </target>
+
+    <target name="compile" depends="compile-classes">
+        <mkdir dir="${dest.dir}"/>
+        <jar destfile="${dest.file}" basedir="${build.dir}">
+            <manifest><attribute name="Main-Class" value="${main.class}"/></manifest>
+        </jar>
+    </target>
+
+    <!--<target name="doc" depends="clean-doc">-->
+    <!--<mkdir dir="${doc.dir}"/>-->
+    <!--<javadoc locale="cs_CZ"-->
+    <!--packagenames="blocks, gui, connections, repository, connections.dataTypes"-->
+    <!--sourcepath="src"-->
+    <!--excludepackagenames=""-->
+    <!--defaultexcludes="yes"-->
+    <!--destdir="${doc.dir}"-->
+    <!--author="true"-->
+    <!--version="true"-->
+    <!--use="true"-->
+    <!--windowtitle="IJA PROJEKT"-->
+    <!--charset="UTF-8">-->
+    <!--<doctitle><![CDATA[<h1>IJA PROJEKT</h1>]]></doctitle>-->
+    <!--<bottom><![CDATA[<i>Autor: xsalih10 a xvever12</i>]]></bottom>-->
+    <!--</javadoc>-->
+    <!--</target>-->
+
+    <target name="run" depends="compile">
+        <java jar="${dest.file}" fork="true"/>
+    </target>
+
+    <target name="clean-build" depends="clean,compile"/>
+
+    <target name="main" depends="clean,run"/>
+
+</project>
