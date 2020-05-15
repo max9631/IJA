@@ -303,6 +303,40 @@
           "street": "7th avenue"
         }
       ]
+    },
+    {
+      "name": "2",
+      "interval": 3,
+      "route": [
+        {
+          "stop": "Between 3 and 4 on 3rd avenue"
+        },
+        {
+          "street": "3rd street"
+        },
+        {
+          "stop": "Between 4 and 5 on 4th avenue"
+        },
+        {
+          "street": "4th street"
+        },
+        {
+          "stop": "Between 5 and 6 on 5th avenue"
+        },
+        {
+          "street": "5th street"
+        },
+        {
+          "stop": "Between 6 and 7 on 6th avenue"
+        },
+        {
+          "street": "6th street"
+        },
+        {
+          "stop": "Between 5 and 6 on 7th avenue",
+          "street": "7th avenue"
+        }
+      ]
     }
   ]
 }
