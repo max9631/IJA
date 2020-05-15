@@ -35,7 +35,7 @@ public class Main extends Application implements ControllerDelegate {
             controller.viewDidLoad(new ViewModel());
             controller.delegate = this;
 
-            Scene scene = new Scene(pane, 1000, 800);
+            Scene scene = new Scene(pane, 1200, 1000);
 
             primaryStage.setTitle("xsalih01 a xvever12");
             primaryStage.setScene(scene);
