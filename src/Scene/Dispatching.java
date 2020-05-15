@@ -20,7 +20,7 @@ public class Dispatching extends TimerTask {
     private Controller controller;
 
     private int hours, minutes;
-    private List<AbstractMap.SimpleImmutableEntry<BusView, Double>> busLines;
+    private ArrayList<BusView> busLines;
     private Timer timer;
 
     private boolean clockInit = true;
@@ -39,8 +39,7 @@ public class Dispatching extends TimerTask {
     }
 
     public void addBus(BusView busLine){
-        double interval = busLine.getLine().getInterval();
-        this.busLines.add(new AbstractMap.SimpleImmutableEntry<>(busLine, interval));
+        this.busLines.add(busLine);
     }
     
     public void cancelTimer(){
@@ -74,31 +73,32 @@ public class Dispatching extends TimerTask {
             mins = this.minutes + "";
         }
 
-        for (AbstractMap.SimpleImmutableEntry<BusView, Double> line: this.busLines) {
-            Coordinate position = line.getKey().getPosition();
-            Coordinate textPosition = line.getKey().getTextPosition();
+        for (BusView line: this.busLines) {
+            Coordinate position = line.getPosition();
+            Coordinate textPosition = line.getTextPosition();
 
             int multiplier = 1;
-            multiplier *= line.getKey().getVelocity()*this.timeMultiplierSlider.getValue();
+            multiplier *= line.getVelocity()*this.timeMultiplierSlider.getValue();
 
-            line.getKey().getBusIcon().setCenterX(position.getX()+multiplier);
-            line.getKey().getBusIcon().setCenterY(position.getY()+multiplier);
-            line.getKey().getBusText().setX(textPosition.getX()+multiplier);
-            line.getKey().getBusText().setY(textPosition.getY()+multiplier);
+            line.getBusIcon().setCenterX(position.getX()+multiplier);
+            line.getBusIcon().setCenterY(position.getY()+multiplier);
+            line.getBusText().setX(textPosition.getX()+multiplier);
+            line.getBusText().setY(textPosition.getY()+multiplier);
 
-            line.getKey().setPosition(new Coordinate(position.getX()+multiplier, position.getY()+multiplier), new Coordinate(textPosition.getX()+multiplier, textPosition.getY()+multiplier));
+            line.setPosition(new Coordinate(position.getX()+multiplier, position.getY()+multiplier), new Coordinate(textPosition.getX()+multiplier, textPosition.getY()+multiplier));
 
-            System.out.print("Line: " + " " + line.getKey().getBusText().getText() + " X: ");
+            System.out.print("Line: " + " " + line.getBusText().getText() + " X: ");
             System.out.println(position.getX() + " Y: " + position.getY());
         }
 
         if(!clockInit) {
-            for (AbstractMap.SimpleImmutableEntry<BusView, Double> line : this.busLines) {
-                double intervalValue = line.getValue();
+            ArrayList<BusView> busInfo = new ArrayList<>(this.busLines);
+            for (BusView line : busInfo) {
+                double intervalValue = line.getLine().getInterval();
                 if (minutes % (int) intervalValue == 0) {
-                    System.out.println("Linka: " + line.getKey().getBusText().getText() + " " + " Out!");
+                    System.out.println("Linka: " + line.getBusText().getText() + " " + " Out!");
 
-                    this.controller.add(line.getKey().getLine());
+                    this.controller.add(line.getLine());
 
                 }
             }
