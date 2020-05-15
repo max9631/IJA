@@ -33,6 +33,7 @@ public class Controller implements StreetViewDelegate {
     @FXML private Slider traficJamSlider;
     @FXML private AnchorPane jamCoeficientView;
     @FXML private Text jamCoeficientText;
+    @FXML private Text itinerary;
 
     private ViewModel model;
     private Dispatching dispatching;
@@ -51,6 +52,7 @@ public class Controller implements StreetViewDelegate {
         timeMultiplierSlider.valueProperty().addListener(this::didDragTimeMultiplyer);
         timeMultiplaerText.setText(((int) timeMultiplierSlider.getValue())+"");
         jamCoeficientView.setOpacity(0);
+        itinerary.setText("");
         this.model = model;
     }
 
