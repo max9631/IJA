@@ -1,5 +1,7 @@
 package model;
 
+import Scene.Routing;
+
 import java.util.AbstractMap.SimpleImmutableEntry;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +10,6 @@ public class TransportLine{
     private String id;
     private List<SimpleImmutableEntry<Street, Stop>> route;
     private double interval;
-    private ArrayList<Coordinate> routeCoords;
     private int lastGen = 0;
 
 
@@ -24,7 +25,6 @@ public class TransportLine{
         this.id = id;
         this.interval = interval;
         this.route = new ArrayList<>();
-        this.routeCoords = new ArrayList<>();
     }
 
     public Street lastStreet() {
@@ -46,7 +46,7 @@ public class TransportLine{
         Street street = stop.getStreet();
         boolean routeIsEmpty = route.size() == 0;
         boolean onSameStreet = street.equals(lastStreet());
-        boolean streetFollowsLast = routeIsEmpty ? false : lastStreet().follows(street);
+        boolean streetFollowsLast = routeIsEmpty ? false : Routing.intersection(lastStreet(), street) != null;
         if (routeIsEmpty || onSameStreet || streetFollowsLast) {
             route.add(new SimpleImmutableEntry<>(street, stop));
             return true;
@@ -58,7 +58,7 @@ public class TransportLine{
         if (route.size() == 0) {
             return  false;
         }
-        if (lastStreet().follows(street)) {
+        if (Routing.intersection(lastStreet(), street) != null) {
             route.add(new SimpleImmutableEntry<>(street, null));
             return true;
         }

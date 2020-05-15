@@ -4,11 +4,11 @@ import model.Coordinate;
 import model.Street;
 
 public class Routing {
-    static Coordinate intersection(Street street1, Street street2) {
+    public static Coordinate intersection(Street street1, Street street2) {
         Coordinate A = street1.getCoordinates().get(0);
         Coordinate B = street1.getCoordinates().get(street1.getCoordinates().size() - 1);
         Coordinate C = street2.getCoordinates().get(0);
-        Coordinate D = street2.getCoordinates().get(street1.getCoordinates().size() - 1);
+        Coordinate D = street2.getCoordinates().get(street2.getCoordinates().size() - 1);
 
         double a1 = B.getY() - A.getY();
         double b1 = A.getX() - B.getX();

@@ -21,11 +21,11 @@ import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.List;
 
-interface SceneDelegate {
+interface ControllerDelegate {
     void resetScene();
 }
 
-public class Controller implements StreetViewDelegate {
+public class Controller implements StreetViewDelegate, BusViewDelegate {
     @FXML private Group content;
     @FXML private Slider timeMultiplierSlider;
     @FXML private Text timeMultiplaerText;
@@ -33,13 +33,16 @@ public class Controller implements StreetViewDelegate {
     @FXML private Slider traficJamSlider;
     @FXML private AnchorPane jamCoeficientView;
     @FXML private Text jamCoeficientText;
+    @FXML private Text itinerary;
 
     private ViewModel model;
     private Dispatching dispatching;
 
     private StreetView selectedStreetView;
 
-    public SceneDelegate delegate;
+    private BusView selectedBusView;
+
+    public ControllerDelegate delegate;
 
     void viewDidLoad(ViewModel model) {
         AbstractMap.SimpleImmutableEntry<Integer, Integer> time = getDefaultTime(timeText.getText());
@@ -51,6 +54,7 @@ public class Controller implements StreetViewDelegate {
         timeMultiplierSlider.valueProperty().addListener(this::didDragTimeMultiplyer);
         timeMultiplaerText.setText(((int) timeMultiplierSlider.getValue())+"");
         jamCoeficientView.setOpacity(0);
+        itinerary.setText("");
         this.model = model;
     }
 
@@ -89,6 +93,7 @@ public class Controller implements StreetViewDelegate {
 
     void add(TransportLine line){
         BusView view = new BusView(line, 0, 1);
+        view.delegate = this;
         dispatching.addBus(view, 0, view.getLine().getInterval());
         this.content.getChildren().addAll(view.getBus());
     }
@@ -117,6 +122,7 @@ public class Controller implements StreetViewDelegate {
     @FXML public void didDeselectStreet(Event event) {
         event.consume();
         deselectStreet();
+        deselectBus();
     }
 
     @FXML public void resetScene() {
@@ -141,6 +147,24 @@ public class Controller implements StreetViewDelegate {
         traficJamSlider.setValue(street.getStreet().getFrictionCoeficient());
         this.setJamCoeficient(street, street.getStreet().getFrictionCoeficient());
         jamCoeficientView.setOpacity(1);
+    }
+
+    @Override
+    public void userSelected(BusView view) {
+        deselectBus();
+        view.getBusIcon().setStroke(Color.BLUE);
+        selectedBusView = view;
+        itinerary.setText(view.getStopItinerary());
+        view.getRouteLines().forEach(line -> content.getChildren().add(line));
+    }
+
+    private void deselectBus() {
+        if (selectedBusView != null) {
+            selectedBusView.getBusIcon().setStroke(Color.RED);
+            selectedBusView.getRouteLines().forEach(line -> content.getChildren().remove(line));
+        }
+        itinerary.setText("");
+
     }
 
     private void setJamCoeficient(StreetView street, double jamCoeficient) {
