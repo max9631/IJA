@@ -43,7 +43,7 @@ public class Controller implements StreetViewDelegate {
 
     void viewDidLoad(ViewModel model) {
         AbstractMap.SimpleImmutableEntry<Integer, Integer> time = getDefaultTime(timeText.getText());
-        dispatching = new Dispatching(time.getKey(), time.getValue(), timeText, timeMultiplierSlider);
+        dispatching = new Dispatching(time.getKey(), time.getValue(), timeText, timeMultiplierSlider, this);
         model.getStreets().forEach(this::add);
         model.getStops().forEach(this::add);
         model.getTransportLines().forEach(this::add);
@@ -88,8 +88,13 @@ public class Controller implements StreetViewDelegate {
     }
 
     void add(TransportLine line){
-        BusView view = new BusView(line);
+        BusView view = new BusView(line, this.dispatching);
+        dispatching.addBus(view);
         this.content.getChildren().addAll(view.getBus());
+    }
+
+    public Group getContent() {
+        return content;
     }
 
     @FXML public void didZoom(ScrollEvent event) {
@@ -108,6 +113,7 @@ public class Controller implements StreetViewDelegate {
     @FXML public void resetScene() {
         if (delegate != null) {
             delegate.resetScene();
+            dispatching.cancelTimer();
         }
     }
 
