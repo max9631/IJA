@@ -8,21 +8,8 @@
   <component name="ChangeListManager">
     <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/Scene.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/build/Scene.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/Scene/BusView.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/Scene/BusViewDelegate.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/Scene/Controller.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/Scene/Dispatching.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/Scene/Routing.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/Scene/Routing.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/Scene/StopView.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/Scene/StreetView.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/Scene/StreetView.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/Scene/ViewModel.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/model/TransportLine.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Scene/BusView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Scene/BusView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/Scene/Controller.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/Scene/Controller.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Scene/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Scene/Controller.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Scene/Dispatching.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Scene/Dispatching.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Scene/Routing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Scene/Routing.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/TransportLine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/TransportLine.java" afterDir="false" />
     </list>
     <ignored path="JavaFxApplication.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -202,8 +189,8 @@
           <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/Scene/Controller.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="223">
-                  <caret line="93" column="33" selection-start-line="93" selection-start-column="33" selection-end-line="93" selection-end-column="33" />
+                <state relative-caret-position="453">
+                  <caret line="103" column="29" selection-start-line="103" selection-start-column="29" selection-end-line="103" selection-end-column="29" />
                   <folding>
                     <element signature="imports" expanded="true" />
                     <element signature="e#3341#3342#0" expanded="true" />
@@ -562,7 +549,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="66063000" />
+    <option name="totallyTimeSpent" value="66425000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1920" height="1200" extended-state="0" />
@@ -578,7 +565,7 @@
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32871288" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.32920355" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.2938053" />
+      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.2938053" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -588,7 +575,7 @@
       <window_info anchor="bottom" id="Changes" order="10" />
       <window_info anchor="bottom" id="Profiler" order="11" />
       <window_info anchor="bottom" id="Event Log" order="12" />
-      <window_info active="true" anchor="bottom" id="Messages" order="13" visible="true" weight="0.32654867" />
+      <window_info anchor="bottom" id="Messages" order="13" weight="0.32654867" />
       <window_info anchor="bottom" id="Docker" order="14" show_stripe_button="false" />
       <window_info anchor="bottom" id="Database Changes" order="15" />
       <window_info anchor="bottom" id="Terminal" order="16" />
@@ -891,8 +878,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Scene/Controller.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="223">
-          <caret line="93" column="33" selection-start-line="93" selection-start-column="33" selection-end-line="93" selection-end-column="33" />
+        <state relative-caret-position="453">
+          <caret line="103" column="29" selection-start-line="103" selection-start-column="29" selection-end-line="103" selection-end-column="29" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#3341#3342#0" expanded="true" />
