@@ -33,13 +33,42 @@ public class BusView {
     private Text busText;
     private Dispatching dispatcher;
     private Paint paint = new Color(1.0, 0, 0, 1.0);
+    private ArrayList<Coordinate> routeCoords;
+    private ArrayList<Line> routeLines;
 
     public BusViewDelegate delegate;
 
     public BusView(TransportLine line, Dispatching dispatcher) {
         this.line = line;
+        SimpleImmutableEntry<Street, Stop> lastEntry = null;
+        routeCoords = new ArrayList<>();
+        for (SimpleImmutableEntry<Street, Stop> path: line.getRoute()) {
+            Street street = path.getKey();
+            if (lastEntry == null) {
+                lastEntry = path;
+                routeCoords.add(path.getValue().getCoordinate());
+                continue;
+            }
+            routeCoords.add(Routing.intersection(lastEntry.getKey(), street));
+            lastEntry = path;
+        }
+        routeCoords.add(lastEntry.getValue().getCoordinate());
 
-        List<AbstractMap.SimpleImmutableEntry<Street, Stop>> tmpLineInfo = line.getRoute();
+        routeLines = new ArrayList<>();
+        Coordinate c = null;
+        for (int i = 0; i < routeCoords.size() ; i++) {
+            Coordinate coord = routeCoords.get(i);
+            if (c != null) {
+                Line routeLine = new Line(c.getX(), c.getY(), coord.getX(), coord.getY());
+                int radius = 1;
+                routeLine.setStrokeWidth(2*radius);
+                routeLine.setStroke(Color.GREEN);
+                routeLines.add(routeLine);
+            }
+            c = coord;
+        }
+
+        List<SimpleImmutableEntry<Street, Stop>> tmpLineInfo = line.getRoute();
         position = tmpLineInfo.get(0).getKey().begin();
         busText = new Text(position.getX()-3,position.getY()+5,line.getId());
         textPosition = new Coordinate(position.getX()-3, position.getY()+5);
@@ -78,6 +107,10 @@ public class BusView {
 
     public Text getBusText() {
         return busText;
+    }
+
+    public List<Line> getRouteLines() {
+        return routeLines;
     }
 
     public String getStopItinerary() {

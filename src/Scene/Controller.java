@@ -143,12 +143,15 @@ public class Controller implements StreetViewDelegate, BusViewDelegate {
     public void userSelected(BusView view) {
         deselectBus();
         view.getBusIcon().setStroke(Color.BLUE);
+        selectedBusView = view;
         itinerary.setText(view.getStopItinerary());
+        view.getRouteLines().forEach(line -> content.getChildren().add(line));
     }
 
     private void deselectBus() {
         if (selectedBusView != null) {
             selectedBusView.getBusIcon().setStroke(Color.RED);
+            selectedBusView.getRouteLines().forEach(line -> content.getChildren().remove(line));
         }
         itinerary.setText("");
 
