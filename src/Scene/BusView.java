@@ -6,6 +6,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+import javafx.scene.shape.StrokeType;
 import javafx.scene.text.Text;
 import model.Coordinate;
 import model.Stop;
@@ -79,10 +80,10 @@ public class BusView {
 
     public void setCurrentPosition(Coordinate position) {
         currentPosition = position;
-        busIcon.setCenterX(position.getX()-8);
-        busIcon.setCenterY(position.getY()-1);
-        busText.setX(position.getX()-11);
-        busText.setY(position.getY()+3);
+        busIcon.setCenterX(position.getX());
+        busIcon.setCenterY(position.getY());
+        busText.setX(position.getX()-(busText.getLayoutBounds().getWidth()/2));
+        busText.setY(position.getY()+(busText.getLayoutBounds().getHeight()/4));
     }
 
     public String getStopItinerary() {
@@ -92,7 +93,6 @@ public class BusView {
                 .filter(entry -> entry.getValue() != null)
                 .map(entry -> entry.getValue().getId() + ": ") // TODO: Add estimated arival time
                 .collect(Collectors.toList());
-        System.out.println(String.join("\n\n", routes));
         return String.join("\n", routes);
     }
 
@@ -115,8 +115,8 @@ public class BusView {
 
     public List<Node> getNodes(){
         ArrayList<Node> busInfo = new ArrayList<>();
-        busInfo.add(this.busIcon);
-        busInfo.add(this.busText);
+        busInfo.add(busIcon);
+        busInfo.add(busText);
         return busInfo;
     }
 
@@ -148,13 +148,7 @@ public class BusView {
                 moveByTime(timeDelta - timeForNextStreetTravel);
             }
         }
-//        Coordinate c = new Coordinate(currentPosition.getX() + timeDelta * velocity, currentPosition.getY());
-//        setCurrentPosition(c);
     }
-
-//    public void moveByDistance(double distance) {
-////        setCurrentPosition(Routing.move(currentPosition, getNextCoordinate(), distance));
-////    }
 }
 
 
