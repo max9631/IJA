@@ -145,6 +145,7 @@ public class Controller implements StreetViewDelegate, BusViewDelegate, Dispatch
             selectedBusView.getRouteLines().forEach(line -> content.getChildren().remove(line));
         }
         itinerary.setText("");
+        selectedBusView = null;
 
     }
 
@@ -159,6 +160,10 @@ public class Controller implements StreetViewDelegate, BusViewDelegate, Dispatch
         street.lines.forEach(line -> line.setStroke(Color.rgb(red, green, 0)));
     }
 
+    private void updateItinerary() {
+        itinerary.setText(selectedBusView == null ? "" : selectedBusView.getStopItinerary());
+    }
+
     public void didDragTimeMultiplier(ObservableValue observable, Number oldValue, Number newValue) {
         timeMultiplaerText.setText(newValue.intValue()+"");
     }
@@ -166,6 +171,7 @@ public class Controller implements StreetViewDelegate, BusViewDelegate, Dispatch
     public void didDragJamCoeficient(ObservableValue observable, Number oldValue, Number newValue) {
         jamCoeficientText.setText(newValue.doubleValue()+"");
         setJamCoefficient(selectedStreetView, newValue.doubleValue());
+        updateItinerary();
     }
 
     @Override

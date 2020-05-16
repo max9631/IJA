@@ -47,4 +47,8 @@ public class Routing {
         vector.setY((int)(vector.getY() * (distance/fullDistance)));
         return new Coordinate(from.getX() + vector.getX(), from.getY() + vector.getY());
     }
+
+    public static boolean isOnLine(Coordinate from, Coordinate to, Coordinate point) {
+        return distance(from, point) + distance(point, to) == distance(from, to);
+    }
 }

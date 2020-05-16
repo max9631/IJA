@@ -87,13 +87,43 @@ public class BusView {
     }
 
     public String getStopItinerary() {
-        List<String> routes = line
-                .getRoute()
-                .stream()
-                .filter(entry -> entry.getValue() != null)
-                .map(entry -> entry.getValue().getId() + ": ") // TODO: Add estimated arival time
-                .collect(Collectors.toList());
-        return String.join("\n", routes);
+        if (reachedEnd()) return "";
+        List<String> itinerary = new ArrayList<>();
+        List<SimpleImmutableEntry<Street, Stop>> route = line.getRoute();
+        Street street = route.get(nextCoordinateIndex - 1).getKey();
+        Stop stop = route.get(nextCoordinateIndex - 1).getValue();
+        int velocity = street.velocity(this.velocity);
+        if (stop != null && Routing.isOnLine(currentPosition, getNextCoordinate(), stop.getCoordinate())) {
+            String time = "-";
+            if (velocity != 0) {
+                double timeLeft = Routing.distance(currentPosition, stop.getCoordinate()) / velocity;
+                double estimatedArrival = Dispatching.shared.getTimestamp() + timeLeft;
+                time = Formatter.formatTime(estimatedArrival);
+            }
+            itinerary.add(stop.getId() + ": " + time);
+        }
+        double lastTime = Dispatching.shared.getTimestamp() + (Routing.distance(currentPosition, getNextCoordinate()) / velocity);
+        Coordinate lastCoordinate = getNextCoordinate();
+        boolean velocityWasZero = false;
+
+        for (int i = nextCoordinateIndex; i < route.size(); i++) {
+            street = route.get(i).getKey();
+            stop = route.get(i).getValue();
+            velocity = street.velocity(this.velocity);
+            velocityWasZero = velocityWasZero || velocity == 0;
+            if (stop != null) {
+                String time = "-";
+                if (velocity != 0 && !velocityWasZero) {
+                    double timeLeft = Routing.distance(lastCoordinate, stop.getCoordinate()) / velocity;
+                    double estimatedArrival = lastTime + timeLeft;
+                    time = Formatter.formatTime(estimatedArrival);
+                }
+                itinerary.add(stop.getId() + ": " + time);
+            }
+            lastTime += Routing.distance(lastCoordinate, routeCoords.get(i + 1)) / velocity;
+            lastCoordinate = routeCoords.get(i + 1);
+        }
+        return String.join("\n\n", itinerary);
     }
 
     public ArrayList<Line> getRouteLines() {
