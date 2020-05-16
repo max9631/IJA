@@ -110,12 +110,4 @@ public class Street {
         }
         return this.coordinates.get(this.coordinates.size() - 1);
     }
-
-    public boolean follows(Street s) {
-        boolean b1 = this.begin().equals(s.begin());
-        boolean b2 = this.begin().equals(s.end());
-        boolean b3 = this.end().equals(s.begin());
-        boolean b4 = this.end().equals(s.end());
-        return b1 || b2 || b3 || b4;
-    }
 }

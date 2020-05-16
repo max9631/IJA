@@ -25,7 +25,7 @@ interface ControllerDelegate {
     void resetScene();
 }
 
-public class Controller implements StreetViewDelegate, BusViewDelegate {
+public class Controller implements StreetViewDelegate, BusViewDelegate, DispatchingDelegate {
     @FXML private Group content;
     @FXML private Slider timeMultiplierSlider;
     @FXML private Text timeMultiplaerText;
@@ -46,12 +46,11 @@ public class Controller implements StreetViewDelegate, BusViewDelegate {
 
     void viewDidLoad(ViewModel model) {
         AbstractMap.SimpleImmutableEntry<Integer, Integer> time = getDefaultTime(timeText.getText());
-        dispatching = new Dispatching(time.getKey(), time.getValue(), timeText, timeMultiplierSlider, this);
+        dispatching = new Dispatching(model.getTransportLines(), this);
         model.getStreets().forEach(this::add);
         model.getStops().forEach(this::add);
-        model.getTransportLines().forEach(this::add);
         traficJamSlider.valueProperty().addListener(this::didDragJamCoeficient);
-        timeMultiplierSlider.valueProperty().addListener(this::didDragTimeMultiplyer);
+        timeMultiplierSlider.valueProperty().addListener(this::didDragTimeMultiplier);
         timeMultiplaerText.setText(((int) timeMultiplierSlider.getValue())+"");
         jamCoeficientView.setOpacity(0);
         itinerary.setText("");
@@ -75,9 +74,9 @@ public class Controller implements StreetViewDelegate, BusViewDelegate {
         double y = view.lines.get(0).getStartY() - 20;
         Text text = new Text(x, y, view.getStreet().getId());
         text.setX(x - (text.getLayoutBounds().getWidth()/2));
-        this.content.getChildren().add(text);
+        content.getChildren().add(text);
         for (Line line: view.lines) {
-            this.content.getChildren().add(line);
+            content.getChildren().add(line);
         }
     }
 
@@ -87,25 +86,8 @@ public class Controller implements StreetViewDelegate, BusViewDelegate {
         double y = stop.getCoordinate().getY() - 8;
         Text text = new Text(x, y, stop.getId());
         text.setX(x - (text.getLayoutBounds().getWidth()/2));
-        this.content.getChildren().add(text);
-        this.content.getChildren().add(view);
-    }
-
-    void add(TransportLine line){
-        BusView view = new BusView(line, 0, 1);
-        view.delegate = this;
-        dispatching.addBus(view, 0, view.getLine().getInterval());
-        this.content.getChildren().addAll(view.getBus());
-    }
-
-
-    void add(TransportLine line, int value, int busTime){
-        BusView view = new BusView(line, busTime, value);
-        view.delegate = this;
-        boolean add = dispatching.addBus(view, busTime, view.getLine().getInterval());
-        if(add){
-            this.content.getChildren().addAll(view.getBus());
-        }
+        content.getChildren().add(text);
+        content.getChildren().add(view);
     }
 
 
@@ -150,7 +132,7 @@ public class Controller implements StreetViewDelegate, BusViewDelegate {
     @Override
     public void userSelected(BusView view) {
         deselectBus();
-        view.getBusIcon().setStroke(Color.BLUE);
+        view.setStroke(Color.BLUE);
         selectedBusView = view;
         itinerary.setText(view.getStopItinerary());
         view.getRouteLines().forEach(line -> content.getChildren().add(line));
@@ -158,7 +140,7 @@ public class Controller implements StreetViewDelegate, BusViewDelegate {
 
     private void deselectBus() {
         if (selectedBusView != null) {
-            selectedBusView.getBusIcon().setStroke(Color.RED);
+            selectedBusView.setStroke(Color.RED);
             selectedBusView.getRouteLines().forEach(line -> content.getChildren().remove(line));
         }
         itinerary.setText("");
@@ -183,5 +165,22 @@ public class Controller implements StreetViewDelegate, BusViewDelegate {
     public void didDragJamCoeficient(ObservableValue observable, Number oldValue, Number newValue) {
         jamCoeficientText.setText(newValue.doubleValue()+"");
         setJamCoefficient(selectedStreetView, newValue.doubleValue());
+    }
+
+    @Override
+    public int getTimeMultiplier() {
+        return (int) timeMultiplierSlider.getValue();
+    }
+
+    @Override
+    public void updateTime(int timestamp) {
+        String secondsPrefix = timestamp%60 > 9 ? "" : "0";
+        timeText.setText(timestamp/60 + ":" + secondsPrefix + timestamp%60);
+    }
+
+    @Override
+    public void showBusView(BusView view) {
+        view.delegate = this;
+        content.getChildren().addAll(view.getNodes());
     }
 }

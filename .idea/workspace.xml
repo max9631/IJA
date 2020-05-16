@@ -7,9 +7,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/PublicTransport.json" beforeDir="false" afterPath="$PROJECT_DIR$/build/PublicTransport.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/Scene.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/build/Scene.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/PublicTransport.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/PublicTransport.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/Scene.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/data/Scene.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Scene/BusView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Scene/BusView.java" afterDir="false" />
@@ -113,10 +110,10 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Scene/BusView.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="496">
+            <state relative-caret-position="196">
               <caret line="149" column="9" selection-start-line="149" selection-start-column="9" selection-end-line="149" selection-end-column="9" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -125,11 +122,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Scene/Controller.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="601">
-              <caret line="182" selection-start-line="182" selection-end-line="182" />
+            <state relative-caret-position="268">
+              <caret line="152" column="42" selection-start-line="152" selection-start-column="42" selection-end-line="152" selection-end-column="42" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#5908#5909#0" expanded="true" />
@@ -257,10 +254,10 @@
         <option value="$PROJECT_DIR$/src/model/TransportLine.java" />
         <option value="$PROJECT_DIR$/data/PublicTransport.json" />
         <option value="$PROJECT_DIR$/src/Scene/Dispatching.java" />
-        <option value="$PROJECT_DIR$/src/Scene/Controller.java" />
         <option value="$PROJECT_DIR$/src/model/Street.java" />
         <option value="$PROJECT_DIR$/src/Scene/Routing.java" />
         <option value="$PROJECT_DIR$/src/Scene/BusView.java" />
+        <option value="$PROJECT_DIR$/src/Scene/Controller.java" />
       </list>
     </option>
   </component>
@@ -373,7 +370,7 @@
     <property name="Repository.Attach.Sources" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1589641243583" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1589653666854" />
     <property name="dynamic.classpath" value="false" />
     <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.15" />
@@ -500,18 +497,18 @@
       <workItem from="1589098709137" duration="1845000" />
       <workItem from="1589308837530" duration="107000" />
       <workItem from="1589309033098" duration="13426000" />
-      <workItem from="1589577223267" duration="12428000" />
+      <workItem from="1589577223267" duration="12646000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="81791000" />
+    <option name="totallyTimeSpent" value="82009000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="1920" height="1200" extended-state="0" />
+    <frame x="0" y="0" width="1440" height="900" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.6703755" visible="true" weight="0.16347177" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.6703755" visible="true" weight="0.21959943" />
       <window_info id="Structure" order="1" weight="0.25" />
       <window_info id="Favorites" order="2" />
       <window_info id="Designer" order="3" />
@@ -521,7 +518,7 @@
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32871288" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.32920355" />
-      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.2938053" />
+      <window_info anchor="bottom" id="Debug" order="3" visible="true" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -829,24 +826,24 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Scene/Controller.java">
+    <entry file="file://$PROJECT_DIR$/src/Scene/BusView.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="601">
-          <caret line="182" selection-start-line="182" selection-end-line="182" />
+        <state relative-caret-position="196">
+          <caret line="149" column="9" selection-start-line="149" selection-start-column="9" selection-end-line="149" selection-end-column="9" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#5908#5909#0" expanded="true" />
-            <element signature="e#5968#5969#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Scene/BusView.java">
+    <entry file="file://$PROJECT_DIR$/src/Scene/Controller.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="496">
-          <caret line="149" column="9" selection-start-line="149" selection-start-column="9" selection-end-line="149" selection-end-column="9" />
+        <state relative-caret-position="268">
+          <caret line="152" column="42" selection-start-line="152" selection-start-column="42" selection-end-line="152" selection-end-column="42" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#5908#5909#0" expanded="true" />
+            <element signature="e#5968#5969#0" expanded="true" />
           </folding>
         </state>
       </provider>
