@@ -176,7 +176,7 @@ public class Controller implements StreetViewDelegate, BusViewDelegate {
         street.lines.forEach(line -> line.setStroke(Color.rgb(red, green, 0)));
     }
 
-    public void didDragTimeMultiplyer(ObservableValue observable, Number oldValue, Number newValue) {
+    public void didDragTimeMultiplier(ObservableValue observable, Number oldValue, Number newValue) {
         timeMultiplaerText.setText(newValue.intValue()+"");
     }
 
