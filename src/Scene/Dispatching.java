@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 
 interface DispatchingDelegate {
     int getTimeMultiplier();
-    void updateTime(int timestamp);
+    void update(int timestamp);
     void showBusView(BusView view);
     void remove(BusView view);
 }
@@ -64,7 +64,7 @@ public class Dispatching extends TimerTask {
             lock.lock();
             int delta = 1 * delegate.getTimeMultiplier();
             timestamp += delta;
-            delegate.updateTime(timestamp);
+            delegate.update(timestamp);
             generateBuses(delta);
             recalculateBusPositions(delta);
             lock.unlock();

@@ -180,9 +180,9 @@ public class Controller implements StreetViewDelegate, BusViewDelegate, Dispatch
     }
 
     @Override
-    public void updateTime(int timestamp) {
-        String secondsPrefix = timestamp%60 > 9 ? "" : "0";
-        timeText.setText(timestamp/60 + ":" + secondsPrefix + timestamp%60);
+    public void update(int timestamp) {
+        timeText.setText(Formatter.formatTime(timestamp));
+        updateItinerary();
     }
 
     @Override
