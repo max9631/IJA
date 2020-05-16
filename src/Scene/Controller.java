@@ -116,6 +116,7 @@ public class Controller implements StreetViewDelegate, BusViewDelegate, Dispatch
         if (selectedStreetView != null) {
             selectedStreetView.lines.forEach(line -> line.setStroke(Color.LIGHTGRAY));
         }
+        dispatching.getBusViews().stream().forEach(busView -> busView.getNodes().stream().forEach(node -> node.toFront()));
         jamCoeficientView.setOpacity(0);
         selectedStreetView = null;
     }
@@ -182,5 +183,13 @@ public class Controller implements StreetViewDelegate, BusViewDelegate, Dispatch
     public void showBusView(BusView view) {
         view.delegate = this;
         content.getChildren().addAll(view.getNodes());
+    }
+
+    @Override
+    public void remove(BusView view) {
+        if (selectedBusView != null && selectedBusView.equals(view)) {
+            deselectBus();
+        }
+        content.getChildren().removeAll(view.getNodes());
     }
 }

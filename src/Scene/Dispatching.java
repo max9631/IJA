@@ -18,6 +18,7 @@ interface DispatchingDelegate {
     int getTimeMultiplier();
     void updateTime(int timestamp);
     void showBusView(BusView view);
+    void remove(BusView view);
 }
 
 
@@ -40,6 +41,10 @@ public class Dispatching extends TimerTask {
         lock = new ReentrantLock();
         timer = new Timer(true);
         timer.schedule(this, (long) 1000, (long) 1000);
+    }
+
+    public List<BusView> getBusViews() {
+        return busViews;
     }
 
     public void cancelTimer(){
@@ -76,10 +81,16 @@ public class Dispatching extends TimerTask {
     }
 
     void recalculateBusPositions(int delta) {
+        busViews = busViews
+                .stream()
+                .filter(bus -> {
+                    if (bus.reachedEnd()) {
+                        delegate.remove(bus);
+                    }
+                    return !bus.reachedEnd();
+                })
+                .collect(Collectors.toList());
         busViews.stream()
                 .forEach(bus -> bus.moveByTime(delta));
-        busViews = busViews.stream()
-                .filter(bus -> !bus.reachedEnd())
-                .collect(Collectors.toList());
     }
 }
