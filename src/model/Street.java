@@ -49,6 +49,8 @@ public class Street {
         this.frictionCoefficient = frictionCoeficient;
     }
 
+    public int velocity(int initialVelocity){ return initialVelocity - (int)(initialVelocity * frictionCoefficient); }
+
     public boolean addStop(Stop stop) {
         if (this.stops.contains(stop)) {
             return false;

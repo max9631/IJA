@@ -134,8 +134,7 @@ public class BusView {
     public void moveByTime(int timeDelta) {
         if (timeDelta < 1) return;
         Street currentStreet = getCurrentStreet();
-        double friction = currentStreet.getFrictionCoefficient();
-        int velocity = this.velocity - (int)(friction*this.velocity);
+        int velocity = currentStreet.velocity(this.velocity);
         double estimatedDistanceTravel = (double) velocity * timeDelta;
         double distanceUntilNextStreet = Routing.distance(currentPosition, getNextCoordinate());
         if (estimatedDistanceTravel < distanceUntilNextStreet) {
