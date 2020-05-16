@@ -16,13 +16,15 @@ import java.util.stream.Collectors;
 
 interface DispatchingDelegate {
     int getTimeMultiplier();
-    void updateTime(int timestamp);
+    void update(int timestamp);
     void showBusView(BusView view);
     void remove(BusView view);
 }
 
 
 public class Dispatching extends TimerTask {
+
+    public static Dispatching shared;
 
     private DispatchingDelegate delegate;
 
@@ -36,6 +38,7 @@ public class Dispatching extends TimerTask {
     private int timestamp = 480;
 
     public Dispatching(List<TransportLine> lines, DispatchingDelegate delegate) {
+        Dispatching.shared = this;
         this.delegate = delegate;
         this.lines = lines;
         lock = new ReentrantLock();
@@ -45,6 +48,10 @@ public class Dispatching extends TimerTask {
 
     public List<BusView> getBusViews() {
         return busViews;
+    }
+
+    public int getTimestamp() {
+        return timestamp;
     }
 
     public void cancelTimer(){
@@ -57,7 +64,7 @@ public class Dispatching extends TimerTask {
             lock.lock();
             int delta = 1 * delegate.getTimeMultiplier();
             timestamp += delta;
-            delegate.updateTime(timestamp);
+            delegate.update(timestamp);
             generateBuses(delta);
             recalculateBusPositions(delta);
             lock.unlock();
