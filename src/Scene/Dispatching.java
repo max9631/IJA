@@ -24,6 +24,8 @@ interface DispatchingDelegate {
 
 public class Dispatching extends TimerTask {
 
+    public static Dispatching shared;
+
     private DispatchingDelegate delegate;
 
     private Timer timer;
@@ -36,6 +38,7 @@ public class Dispatching extends TimerTask {
     private int timestamp = 480;
 
     public Dispatching(List<TransportLine> lines, DispatchingDelegate delegate) {
+        Dispatching.shared = this;
         this.delegate = delegate;
         this.lines = lines;
         lock = new ReentrantLock();
@@ -45,6 +48,10 @@ public class Dispatching extends TimerTask {
 
     public List<BusView> getBusViews() {
         return busViews;
+    }
+
+    public int getTimestamp() {
+        return timestamp;
     }
 
     public void cancelTimer(){
