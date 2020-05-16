@@ -43,6 +43,10 @@ public class Dispatching extends TimerTask {
         timer.schedule(this, (long) 1000, (long) 1000);
     }
 
+    public List<BusView> getBusViews() {
+        return busViews;
+    }
+
     public void cancelTimer(){
         timer.cancel();
     }

@@ -187,7 +187,7 @@ public class Controller implements StreetViewDelegate, BusViewDelegate, Dispatch
 
     @Override
     public void remove(BusView view) {
-        if (selectedBusView.equals(view)) {
+        if (selectedBusView != null && selectedBusView.equals(view)) {
             deselectBus();
         }
         content.getChildren().removeAll(view.getNodes());
