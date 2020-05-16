@@ -12,49 +12,34 @@ import model.TransportLine;
 
 import java.util.*;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.stream.Collectors;
+
+interface DispatchingDelegate {
+    int getTimeMultiplier();
+    void updateTime(int timestamp);
+    void showBusView(BusView view);
+}
 
 
 public class Dispatching extends TimerTask {
 
-    private Text timeText;
-    private Slider timeMultiplierSlider;
-    private Controller controller;
+    private DispatchingDelegate delegate;
 
-    private int hours, minutes;
-    private ArrayList<BusView> busLines;
     private Timer timer;
     private ReentrantLock lock;
 
-    private List<AbstractMap.SimpleImmutableEntry<Integer, Double>> busesDeparted;
+    private List<TransportLine> lines;
 
-    private int busTime = 0;
-    private boolean clockInit = true;
+    private List<BusView> busViews = new ArrayList<>();
 
-    public Dispatching(int hours, int minutes, Text timeText, Slider timeMultiplierSlider, Controller controller) {
-        this.hours = hours;
-        this.minutes = minutes;
-        this.busLines = new ArrayList<>();
-        this.busesDeparted = new ArrayList<>();
-        this.timeText = timeText;
-        this.timeMultiplierSlider = timeMultiplierSlider;
-        this.controller = controller;
+    private int timestamp = 480;
+
+    public Dispatching(List<TransportLine> lines, DispatchingDelegate delegate) {
+        this.delegate = delegate;
+        this.lines = lines;
         lock = new ReentrantLock();
-
-        this.timer = new Timer(true);
-        long delay = 1000;
-        timer.schedule(this, delay, delay);
-    }
-
-    public boolean addBus(BusView busLine, int time, double interval){
-        for (AbstractMap.SimpleImmutableEntry<Integer, Double> record : this.busesDeparted){
-            if (record.getKey() == time && record.getValue() == interval) {
-                return false;
-            }
-        }
-        busesDeparted.add(new AbstractMap.SimpleImmutableEntry<>(time, interval));
-        this.busLines.add(busLine);
-        busLine.getLine().calculateRoute();
-        return true;
+        timer = new Timer(true);
+        timer.schedule(this, (long) 1000, (long) 1000);
     }
 
     public void cancelTimer(){
@@ -65,95 +50,36 @@ public class Dispatching extends TimerTask {
     public void run() {
         Platform.runLater(() -> {
             lock.lock();
-            this.busTime += 1*this.timeMultiplierSlider.getValue();
-            this.minutes += 1*this.timeMultiplierSlider.getValue();
-
-
-            if(this.minutes >= 60){
-                this.minutes = this.minutes % 60;
-                this.hours++;
-            }
-            if(this.hours == 24){
-                this.hours = 0;
-            }
-
-            String hrs, mins;
-            if(this.hours < 10){
-                hrs = "0" + this.hours;
-            }
-            else{
-                hrs = this.hours + "";
-            }
-            if(this.minutes < 10){
-                mins = "0" + this.minutes;
-            }
-            else{
-                mins = this.minutes + "";
-            }
-
-            for (BusView line: this.busLines) {
-                busUpdate(line);
-            }
-
-            if(!clockInit) {
-                ArrayList<BusView> busInfo = new ArrayList<>(this.busLines);
-                for (BusView line : busInfo) {
-                    double intervalValue = line.getLine().getInterval();
-                    if (busTime % (int) intervalValue == 0 || timeMultiplierSlider.getValue() % (int) intervalValue == 0) {
-                        //System.out.println("Linka: " + line.getBusText().getText() + " " + " Out!");
-                        int timeElapsed = (busTime - line.getLine().getLastGen()) / (int) intervalValue;
-                        System.out.println("Curren time: " + busTime + " Last time : " +line.getLine().getLastGen()+ " On line: " + line.getLine().getId());
-                        if(timeElapsed > 1){
-                            System.out.println("Here! " + timeElapsed);
-                            for(int i = 0; i < timeElapsed; i++){
-                                this.controller.add(line.getLine(), (i+1)*(int)intervalValue, busTime);
-                            }
-                        }
-                        else{
-                            this.controller.add(line.getLine(), 1, busTime);
-                        }
-                        line.getLine().setLastGen(busTime);
-                    }
-                }
-            }
-
-            timeText.setText(hrs+":"+mins);
-            clockInit = false;
+            int delta = 1 * delegate.getTimeMultiplier();
+            timestamp += delta;
+            delegate.updateTime(timestamp);
+            generateBuses(delta);
+            recalculateBusPositions(delta);
             lock.unlock();
         });
     }
 
-    private void busUpdate(BusView line){
-        Coordinate position = line.getNextPoint();
-        Coordinate textPosition = line.getTextPosition();
-
-        int multiplier = 1;
-        multiplier *= line.getVelocity()*this.timeMultiplierSlider.getValue();
-
-        List<Coordinate> lastStreetCoords = line.getLine().lastStreet().getCoordinates();
-        Coordinate endCoordinates = lastStreetCoords.get(lastStreetCoords.size()-1);
-
-        if(position == null){
-            ArrayList<BusView> newLines = new ArrayList<>();
-            for(BusView lines : this.busLines){
-                if(lines == line){
-                    continue;
-                }
-                newLines.add(lines);
+    void generateBuses(int delta) {
+        for (TransportLine line: lines) {
+            int interval = line.getInterval();
+            int offset = (timestamp-delta)%interval;
+            int numberOfBuses = (delta + offset) / interval;
+            int startingTimestamp = timestamp - delta - offset;
+            for (int i = 0; i < numberOfBuses; i++) {
+                startingTimestamp += interval;
+                BusView bus = new BusView(line, startingTimestamp);
+                bus.moveByTime(timestamp - startingTimestamp);
+                delegate.showBusView(bus);
+                busViews.add(bus);
             }
-            busLines = newLines;
-            line.end();
-            return;
         }
+    }
 
-        line.getBusIcon().setCenterX(position.getX()-10+multiplier);
-        line.getBusIcon().setCenterY(position.getY()-10+multiplier);
-        line.getBusText().setX(position.getX()-13+multiplier);
-        line.getBusText().setY(position.getY()-5+multiplier);
-
-        line.setPosition(new Coordinate(position.getX()+multiplier, position.getY()+multiplier), new Coordinate(textPosition.getX()+multiplier, textPosition.getY()+multiplier));
-
-        //System.out.print("Line: " + " " + line.getBusText().getText() + " X: ");
-        //System.out.println(position.getX() + " Y: " + position.getY());
+    void recalculateBusPositions(int delta) {
+        busViews.stream()
+                .forEach(bus -> bus.moveByTime(delta));
+        busViews = busViews.stream()
+                .filter(bus -> !bus.reachedEnd())
+                .collect(Collectors.toList());
     }
 }

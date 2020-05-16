@@ -25,21 +25,21 @@ interface BusViewDelegate {
 }
 
 public class BusView {
-    private TransportLine line;
-    private Coordinate position;
-    private Coordinate textPosition;
-    private double velocity = 10;
     private Circle busIcon;
     private Text busText;
-    private int startTime;
-    private Dispatching dispatcher;
-    private Paint paint = new Color(1.0, 0, 0, 1.0);
+
+    private TransportLine line;
+    private Coordinate currentPosition;
+    private int velocity = 10;
+    private int startingTimestamp;
+
+    int nextCoordinateIndex = 0;
     private ArrayList<Coordinate> routeCoords;
     private ArrayList<Line> routeLines;
 
     public BusViewDelegate delegate;
 
-    public BusView(TransportLine line, int startTime, double timeMultiplier) {
+    public BusView(TransportLine line, int startingTimestamp) {
         this.line = line;
         SimpleImmutableEntry<Street, Stop> lastEntry = null;
         routeCoords = new ArrayList<>();
@@ -54,7 +54,7 @@ public class BusView {
             lastEntry = path;
         }
         routeCoords.add(lastEntry.getValue().getCoordinate());
-
+        nextCoordinateIndex = 1;
         routeLines = new ArrayList<>();
         Coordinate c = null;
         for (int i = 0; i < routeCoords.size() ; i++) {
@@ -68,80 +68,21 @@ public class BusView {
             }
             c = coord;
         }
-
-        position = getFirstPoint();
-        //System.out.println("Multiplier is: " + timeMultiplier);
-        //timeMultiplier -= 1;
-        //position.setX(position.getX()+(int)timeMultiplier);
-        //position.setY(position.getY()+(int)timeMultiplier);
-
-        busText = new Text(position.getX()-3,position.getY()+5,line.getId());
-        textPosition = new Coordinate(position.getX()-3, position.getY()+5);
-        busIcon = new Circle(position.getX(), position.getY(), 8, paint);
+        currentPosition = routeCoords.get(0);
+        busText = new Text(currentPosition.getX()-3,currentPosition.getY()+5,line.getId());
+        busIcon = new Circle(currentPosition.getX(), currentPosition.getY(), 8, new Color(1.0, 0, 0, 1.0));
         busIcon.setOnMouseClicked(this::userSelectedBus);
         busText.setOnMouseClicked(this::userSelectedBus);
-        this.startTime = startTime;
+        this.startingTimestamp = startingTimestamp;
+        setCurrentPosition(routeCoords.get(0));
     }
 
-    public Coordinate getFirstPoint(){
-        return this.routeCoords.get(0);
-    }
-
-    private int coordIndex = 1;
-
-    public Coordinate getNextPoint(){
-        if(this.routeCoords.size() <= coordIndex){
-            return null;
-        }
-        return this.routeCoords.get(this.coordIndex++);
-    }
-
-
-    public void end(){
-        this.line = null;
-        this.position = null;
-        this.textPosition = null;
-        this.busIcon = null;
-        this.busText = null;
-        this.dispatcher = null;
-        this.paint = null;
-    }
-
-    public Coordinate getPosition() {
-        return position;
-    }
-
-    public Coordinate getTextPosition() {
-        return textPosition;
-    }
-
-    public void setBusIcon(Coordinate position){
-        busIcon = new Circle(position.getX(), position.getY(), 8, paint);
-    }
-
-    public Circle getBusIcon() {
-        return busIcon;
-    }
-
-    public TransportLine getLine() {
-        return line;
-    }
-
-    public double getVelocity() {
-        return velocity;
-    }
-
-    public void setPosition(Coordinate position, Coordinate textPosition) {
-        this.position = position;
-        this.textPosition = textPosition;
-    }
-
-    public Text getBusText() {
-        return busText;
-    }
-
-    public List<Line> getRouteLines() {
-        return routeLines;
+    public void setCurrentPosition(Coordinate position) {
+        currentPosition = position;
+        busIcon.setCenterX(position.getX()-8);
+        busIcon.setCenterY(position.getY()-1);
+        busText.setX(position.getX()-11);
+        busText.setY(position.getY()+3);
     }
 
     public String getStopItinerary() {
@@ -155,8 +96,25 @@ public class BusView {
         return String.join("\n", routes);
     }
 
-    public List<Node> getBus(){
-        ArrayList<Node> busInfo = new ArrayList<Node>();
+    public ArrayList<Line> getRouteLines() {
+        return routeLines;
+    }
+
+    public void setStroke(Paint color) {
+        busIcon.setStroke(color);
+    }
+
+    private Coordinate getNextCoordinate() {
+        return nextCoordinateIndex < routeCoords.size() ? routeCoords.get(nextCoordinateIndex) : null;
+    }
+
+    private Street getCurrentStreet() {
+        int index = nextCoordinateIndex - 1;
+        return index < line.getRoute().size() ? line.getRoute().get(index).getKey() : null;
+    }
+
+    public List<Node> getNodes(){
+        ArrayList<Node> busInfo = new ArrayList<>();
         busInfo.add(this.busIcon);
         busInfo.add(this.busText);
         return busInfo;
@@ -167,8 +125,36 @@ public class BusView {
         if (delegate != null) {
             delegate.userSelected(this);
         }
-
     }
+
+    public boolean reachedEnd() {
+        return currentPosition.equals(routeCoords.get(routeCoords.size()-1));
+    }
+
+    public void moveByTime(int timeDelta) {
+        if (timeDelta < 1) return;
+        Street currentStreet = getCurrentStreet();
+        double friction = currentStreet.getFrictionCoefficient();
+        int velocity = this.velocity - (int)(friction*this.velocity);
+        double estimatedDistanceTravel = (double) velocity * timeDelta;
+        double distanceUntilNextStreet = Routing.distance(currentPosition, getNextCoordinate());
+        if (estimatedDistanceTravel < distanceUntilNextStreet) {
+            setCurrentPosition(Routing.move(currentPosition, getNextCoordinate(), estimatedDistanceTravel));
+        } else {
+            setCurrentPosition(getNextCoordinate());
+            nextCoordinateIndex++;
+            if (!reachedEnd()) {
+                int timeForNextStreetTravel = (int) distanceUntilNextStreet / velocity;
+                moveByTime(timeDelta - timeForNextStreetTravel);
+            }
+        }
+//        Coordinate c = new Coordinate(currentPosition.getX() + timeDelta * velocity, currentPosition.getY());
+//        setCurrentPosition(c);
+    }
+
+//    public void moveByDistance(double distance) {
+////        setCurrentPosition(Routing.move(currentPosition, getNextCoordinate(), distance));
+////    }
 }
 
 

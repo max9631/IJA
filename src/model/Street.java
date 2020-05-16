@@ -10,15 +10,12 @@ public class Street {
     private String id;
     private List<Coordinate> coordinates;
     private List<Stop> stops;
-    private double frictionCoeficient = 1;
+    private double frictionCoefficient = 0;
 
     public Street(String id, List<Coordinate> coordinates) {
         this.id = id;
         this.stops = new ArrayList<>();
         this.coordinates = new ArrayList<>(coordinates);
-//        this.coordinates.stream()
-//        Arrays.stream(coordinates)
-//                .forEach((coordinate) -> this.coordinates.add(coordinate));
     }
 
     public boolean equals(Object o) {
@@ -44,12 +41,12 @@ public class Street {
         return this.stops;
     }
 
-    public double getFrictionCoeficient() {
-        return frictionCoeficient;
+    public double getFrictionCoefficient() {
+        return frictionCoefficient;
     }
 
-    public void setFrictionCoeficient(double frictionCoeficient) {
-        this.frictionCoeficient = frictionCoeficient;
+    public void setFrictionCoefficient(double frictionCoeficient) {
+        this.frictionCoefficient = frictionCoeficient;
     }
 
     public boolean addStop(Stop stop) {
@@ -112,13 +109,5 @@ public class Street {
             return null;
         }
         return this.coordinates.get(this.coordinates.size() - 1);
-    }
-
-    public boolean follows(Street s) {
-        boolean b1 = this.begin().equals(s.begin());
-        boolean b2 = this.begin().equals(s.end());
-        boolean b3 = this.end().equals(s.begin());
-        boolean b4 = this.end().equals(s.end());
-        return b1 || b2 || b3 || b4;
     }
 }

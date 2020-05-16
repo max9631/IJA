@@ -9,7 +9,7 @@ import java.util.List;
 public class TransportLine{
     private String id;
     private List<SimpleImmutableEntry<Street, Stop>> route;
-    private double interval;
+    private int interval;
     private int lastGen = 0;
 
 
@@ -21,7 +21,7 @@ public class TransportLine{
         return lastGen;
     }
 
-    public TransportLine(String id, double interval) {
+    public TransportLine(String id, int interval) {
         this.id = id;
         this.interval = interval;
         this.route = new ArrayList<>();
@@ -33,12 +33,6 @@ public class TransportLine{
             return null;
         }
         return route.get(size - 1).getKey();
-    }
-
-
-    public ArrayList<Coordinate> calculateRoute (){
-
-        return new ArrayList<>();
     }
 
 
@@ -73,7 +67,7 @@ public class TransportLine{
         return id;
     }
 
-    public double getInterval() {
+    public int getInterval() {
         return interval;
     }
 }
