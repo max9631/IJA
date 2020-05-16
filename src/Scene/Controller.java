@@ -142,8 +142,8 @@ public class Controller implements StreetViewDelegate, BusViewDelegate {
     public void didSelect(StreetView street) {
         deselectStreet();
         selectedStreetView = street;
-        traficJamSlider.setValue(street.getStreet().getFrictionCoeficient());
-        this.setJamCoeficient(street, street.getStreet().getFrictionCoeficient());
+        traficJamSlider.setValue(street.getStreet().getFrictionCoefficient());
+        setJamCoefficient(street, street.getStreet().getFrictionCoefficient());
         jamCoeficientView.setOpacity(1);
     }
 
@@ -165,10 +165,10 @@ public class Controller implements StreetViewDelegate, BusViewDelegate {
 
     }
 
-    private void setJamCoeficient(StreetView street, double jamCoeficient) {
+    private void setJamCoefficient(StreetView street, double jamCoefficient) {
         if (street == null) return;
-        street.getStreet().setFrictionCoeficient(jamCoeficient);
-        double percentage = jamCoeficient / traficJamSlider.getMax();
+        street.getStreet().setFrictionCoefficient(jamCoefficient);
+        double percentage = jamCoefficient / traficJamSlider.getMax();
         double redDouble = 255 * percentage;
         int red = (int) redDouble;
         double greenDouble = 255 * (1 - percentage);
@@ -182,6 +182,6 @@ public class Controller implements StreetViewDelegate, BusViewDelegate {
 
     public void didDragJamCoeficient(ObservableValue observable, Number oldValue, Number newValue) {
         jamCoeficientText.setText(newValue.doubleValue()+"");
-        setJamCoeficient(selectedStreetView, newValue.doubleValue());
+        setJamCoefficient(selectedStreetView, newValue.doubleValue());
     }
 }
