@@ -14,6 +14,8 @@
   <property name="compiler.generate.no.warnings" value="off"/>
   <property name="compiler.args" value=""/>
   <property name="compiler.max.memory" value="700m"/>
+  <property name="src.dir" location="src"/>
+  <property name="docs.dir" location="docs"/>
   <patternset id="ignored.files">
     <exclude name="**/*.hprof/**"/>
     <exclude name="**/*.pyc/**"/>
@@ -122,7 +124,7 @@
   
   <property name="publictransport.output.dir" value="${module.publictransport.basedir}/build"/>
   <property name="publictransport.testoutput.dir" value="${module.publictransport.basedir}/build_test"/>
-  
+
   <path id="publictransport.module.bootclasspath">
     <!-- Paths to be included in compilation bootclasspath -->
   </path>
@@ -237,6 +239,14 @@
     <!-- Delete temporary files -->
     <delete dir="${artifacts.temp.dir}"/>
   </target>
-  
-  <target name="all" depends="build.modules, build.all.artifacts" description="build all"/>
+
+  <target name="docs">
+    <javadoc sourcepath="${src.dir}" destdir="${docs.dir}">
+      <classpath>
+        <path refid="library.json-simple-1.1.classpath"/>
+      </classpath>
+    </javadoc>
+  </target>
+
+  <target name="all" depends="build.modules, build.all.artifacts, docs" description="build all"/>
 </project>
