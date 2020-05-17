@@ -61,7 +61,7 @@
     </jar>
   </target>
 
-  <target name="run">
+  <target name="run" depends="compile">
     <java jar="${dest.dir}/${dest.file}.jar" fork="true"/>
   </target>
 </project>
