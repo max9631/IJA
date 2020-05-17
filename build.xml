@@ -8,8 +8,8 @@
   <property name="dest.dir" location="dest"/>
   <property name="dest.file" value="PublicTransport"/>
 
-  <path id="lib.json-simple-1.1.classpath">
-    <pathelement location="${lib.dir}/json-simple-1.1.jar"/>
+  <path id="lib.json-simple-1.1.1.classpath">
+    <pathelement location="${lib.dir}/json-simple-1.1.1.jar"/>
   </path>
 
 
@@ -36,7 +36,7 @@
   <target name="doc" depends="makeDoc ,compile">
     <javadoc sourcepath="${src.dir}" destdir="${docs.dir}">
       <classpath>
-        <path refid="lib.json-simple-1.1.classpath"/>
+        <path refid="lib.json-simple-1.1.1.classpath"/>
       </classpath>
     </javadoc>
   </target>
@@ -46,7 +46,7 @@
   <target name="compile-class" depends="clean, makeDir">
     <javac srcdir="${src.dir}" destdir="${build.dir}">
       <classpath>
-        <path refid="lib.json-simple-1.1.classpath" />
+        <path refid="lib.json-simple-1.1.1.classpath" />
       </classpath>
     </javac>
   </target>
@@ -57,7 +57,7 @@
       <manifest>
         <attribute name="Main-Class" value="Scene.Main"/>
       </manifest>
-      <zipgroupfileset dir="${lib.dir}" includes="json-simple-1.1.jar"/>
+      <zipgroupfileset dir="${lib.dir}" includes="json-simple-1.1.1.jar"/>
     </jar>
   </target>
 
