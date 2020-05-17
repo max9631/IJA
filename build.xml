@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="IJA" default="compile">
+  <property name="src.dir" location="src"/>
+  <property name="build.dir" location="build"/>
+  <property name="docs.dir" location="docs"/>
+  <property name="lib.dir" location="lib"/>
+  <property name="resource.dir" location="data"/>
+  <property name="dest.dir" location="dest"/>
+  <property name="dest.file" value="PublicTransport"/>
+
+  <path id="lib.json-simple-1.1.classpath">
+    <pathelement location="${lib.dir}/json-simple-1.1.jar"/>
+  </path>
+
+
+  <target name="rmDir">
+    <delete dir="${build.dir}"/>
+  </target>
+
+  <target name="rmDoc">
+    <delete dir="${docs.dir}"/>
+  </target>
+
+  <target name="rmJar">
+    <delete dir="${dest.dir}"/>
+  </target>
+
+  <target name="makeDir">
+    <mkdir dir="${build.dir}"/>
+  </target>
+
+  <target name="makeDoc">
+    <mkdir dir="${docs.dir}"/>
+  </target>
+
+  <target name="makeDocs" depends="makeDoc ,compile">
+    <javadoc sourcepath="${src.dir}" destdir="${docs.dir}">
+      <classpath>
+        <path refid="lib.json-simple-1.1.classpath"/>
+      </classpath>
+    </javadoc>
+  </target>
+
+  <target name="clean" depends="rmDir, rmDoc, rmJar"/>
+
+  <target name="compile-class" depends="clean, makeDir">
+    <javac srcdir="${src.dir}" destdir="${build.dir}">
+      <classpath>
+        <path refid="lib.json-simple-1.1.classpath" />
+      </classpath>
+    </javac>
+  </target>
+
+  <target name="compile" depends="compile-class">
+    <jar destfile="${dest.dir}\${dest.file}.jar" basedir="${build.dir}">
+      <fileset dir="${resource.dir}"/>
+      <manifest>
+        <attribute name="Main-Class" value="Scene.Main"/>
+      </manifest>
+      <zipgroupfileset dir="${lib.dir}" includes="json-simple-1.1.jar"/>
+    </jar>
+  </target>
+
+  <target name="run">
+    <java jar="${dest.dir}/${dest.file}.jar" fork="true"/>
+  </target>
+</project>
