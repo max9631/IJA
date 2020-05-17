@@ -1,6 +1,9 @@
 package Scene;
 
+import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -25,8 +28,10 @@ public class ViewModel {
     public ViewModel() {
         JSONParser parser = new JSONParser();
         try {
-            String resourcePath = getClass().getResource("/PublicTransport.json").getPath();
-            Object obj = parser.parse(new FileReader(resourcePath));
+            InputStream inputData = getClass().getResourceAsStream("/PublicTransport.json");
+            BufferedReader reader = new BufferedReader(new InputStreamReader(inputData));
+
+            Object obj = parser.parse(reader);
             JSONObject jsonObject = (JSONObject) obj;
 
             JSONArray jsonStreets = (JSONArray) jsonObject.get("streets");
