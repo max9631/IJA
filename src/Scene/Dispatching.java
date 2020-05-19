@@ -73,6 +73,7 @@ public class Dispatching extends TimerTask {
 
     void generateBuses(int delta) {
         for (TransportLine line: lines) {
+            if (!line.isActive) continue;
             int interval = line.getInterval();
             int offset = (timestamp-delta)%interval;
             int numberOfBuses = (delta + offset) / interval;
@@ -80,9 +81,12 @@ public class Dispatching extends TimerTask {
             for (int i = 0; i < numberOfBuses; i++) {
                 startingTimestamp += interval;
                 BusView bus = new BusView(line, startingTimestamp);
-                bus.moveByTime(timestamp - startingTimestamp);
-                delegate.showBusView(bus);
-                busViews.add(bus);
+                bus.delegate = (Controller) delegate;
+                if (!bus.hasClosedStreetInRoute()) {
+                    bus.moveByTime(timestamp - startingTimestamp);
+                    delegate.showBusView(bus);
+                    busViews.add(bus);
+                }
             }
         }
     }
@@ -99,5 +103,9 @@ public class Dispatching extends TimerTask {
                 .collect(Collectors.toList());
         busViews.stream()
                 .forEach(bus -> bus.moveByTime(delta));
+    }
+
+    public void addLine(TransportLine line) {
+        lines.add(line);
     }
 }

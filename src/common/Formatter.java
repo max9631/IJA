@@ -1,4 +1,4 @@
-package Scene;
+package common;
 
 public class Formatter {
 
