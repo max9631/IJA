@@ -213,7 +213,9 @@ public class Controller implements StreetViewDelegate, BusViewDelegate, Dispatch
         view.getRouteLines().forEach(line -> content.getChildren().add(line));
         defineNewLineButton.setOpacity(1);
         if (view.getTransportLine().isAlternativeTransport()) {
-            defineNewLineButton.setText(model.removeRouteString);
+            if (view.getTransportLine().isActive) {
+                defineNewLineButton.setText(model.removeRouteString);
+            }
         } else {
             defineNewLineButton.setText(model.defineNewRouteString);
         }

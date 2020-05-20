@@ -71,14 +71,6 @@ public class TransportLine{
     public TransportLine getNewAlternativeLine() {
         TransportLine line = new TransportLine(id, interval, this);
         line.addStop(getRoute().get(0).getValue());
-//        for (SimpleImmutableEntry<Street, Stop> entry: route) {
-//            if (entry.getValue() != null) {
-//                line.addStop(entry.getValue());
-//            } else {
-//                line.addStreet(entry.getKey());
-//            }
-//
-//        }
         return line;
     }
 

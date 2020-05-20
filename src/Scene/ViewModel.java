@@ -161,7 +161,7 @@ public class ViewModel {
     public void addToAlternativeRoute(StreetView view) {
         if (!isInDefinitionMode()) return;
         Street lastStreet = alternativeLine.lastStreet();
-        if (lastStreet == null || Routing.intersection(lastStreet, view.getStreet()) != null) {
+        if (lastStreet == null || (Routing.intersection(lastStreet, view.getStreet()) != null && !lastStreet.equals(view.getStreet()))) {
             alternativeLine.addStreet(view.getStreet());
         }
         updateAlterantiveRoute();
