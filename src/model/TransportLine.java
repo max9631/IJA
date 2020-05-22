@@ -1,6 +1,6 @@
 package model;
 
-import Scene.Routing;
+import common.Routing;
 
 import java.util.AbstractMap.SimpleImmutableEntry;
 import java.util.ArrayList;
@@ -11,7 +11,9 @@ public class TransportLine{
     private List<SimpleImmutableEntry<Street, Stop>> route;
     private int interval;
     private int lastGen = 0;
+    private TransportLine originalRoute;
 
+    public boolean isActive = true;
 
     public void setLastGen(int busTime) {
         this.lastGen = busTime;
@@ -19,6 +21,13 @@ public class TransportLine{
 
     public int getLastGen() {
         return lastGen;
+    }
+
+    public TransportLine(String id, int interval, TransportLine originalRoute) {
+        this.id = id;
+        this.interval = interval;
+        this.route = new ArrayList<>();
+        this.originalRoute = originalRoute;
     }
 
     public TransportLine(String id, int interval) {
@@ -59,6 +68,12 @@ public class TransportLine{
         return false;
     }
 
+    public TransportLine getNewAlternativeLine() {
+        TransportLine line = new TransportLine(id, interval, this);
+        line.addStop(getRoute().get(0).getValue());
+        return line;
+    }
+
     public List<SimpleImmutableEntry<Street, Stop>> getRoute() {
         return new ArrayList<>(route);
     }
@@ -69,5 +84,9 @@ public class TransportLine{
 
     public int getInterval() {
         return interval;
+    }
+
+    public boolean isAlternativeTransport() {
+        return originalRoute != null;
     }
 }

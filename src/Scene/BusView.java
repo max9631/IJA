@@ -1,12 +1,13 @@
 package Scene;
 
+import common.Formatter;
+import common.Routing;
 import javafx.event.Event;
 import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
-import javafx.scene.shape.StrokeType;
 import javafx.scene.text.Text;
 import model.Coordinate;
 import model.Stop;
@@ -14,15 +15,13 @@ import model.Street;
 import model.TransportLine;
 
 
-import java.awt.event.MouseEvent;
-import java.lang.reflect.Array;
 import java.util.AbstractMap.SimpleImmutableEntry;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 interface BusViewDelegate {
     void userSelected(BusView view);
+    List<Coordinate> getClosedCoordinates();
 }
 
 public class BusView {
@@ -54,7 +53,9 @@ public class BusView {
             routeCoords.add(Routing.intersection(lastEntry.getKey(), street));
             lastEntry = path;
         }
-        routeCoords.add(lastEntry.getValue().getCoordinate());
+        if (lastEntry.getValue() != null) {
+            routeCoords.add(lastEntry.getValue().getCoordinate());
+        }
         nextCoordinateIndex = 1;
         routeLines = new ArrayList<>();
         Coordinate c = null;
@@ -71,7 +72,7 @@ public class BusView {
         }
         currentPosition = routeCoords.get(0);
         busText = new Text(currentPosition.getX()-3,currentPosition.getY()+5,line.getId());
-        busIcon = new Circle(currentPosition.getX(), currentPosition.getY(), 8, new Color(1.0, 0, 0, 1.0));
+        busIcon = new Circle(currentPosition.getX(), currentPosition.getY(), 8,  line.isAlternativeTransport() ? Color.BLUE : Color.RED);
         busIcon.setOnMouseClicked(this::userSelectedBus);
         busText.setOnMouseClicked(this::userSelectedBus);
         this.startingTimestamp = startingTimestamp;
@@ -120,8 +121,10 @@ public class BusView {
                 }
                 itinerary.add(stop.getId() + ": " + time);
             }
-            lastTime += Routing.distance(lastCoordinate, routeCoords.get(i + 1)) / velocity;
-            lastCoordinate = routeCoords.get(i + 1);
+            if (i < route.size()) {
+                lastTime += Routing.distance(lastCoordinate, routeCoords.get(i + 1)) / velocity;
+                lastCoordinate = routeCoords.get(i + 1);
+            }
         }
         return String.join("\n\n", itinerary);
     }
@@ -136,6 +139,10 @@ public class BusView {
 
     private Coordinate getNextCoordinate() {
         return nextCoordinateIndex < routeCoords.size() ? routeCoords.get(nextCoordinateIndex) : null;
+    }
+
+    public TransportLine getTransportLine() {
+        return line;
     }
 
     private Street getCurrentStreet() {
@@ -161,8 +168,24 @@ public class BusView {
         return currentPosition.equals(routeCoords.get(routeCoords.size()-1));
     }
 
+    public boolean hasClosedStreetInRoute() {
+        if (delegate == null) return false;
+        for (int i = nextCoordinateIndex; i < line.getRoute().size(); i++) {
+            Coordinate from = routeCoords.get(i - 1);
+            Coordinate to = routeCoords.get(i);
+            for (Coordinate closedCoord: delegate.getClosedCoordinates()) {
+                if (Routing.isOnLine(from, to , closedCoord)) {
+                    return true;
+                }
+            }
+
+        }
+        return false;
+    }
+
     public void moveByTime(int timeDelta) {
         if (timeDelta < 1) return;
+        if (hasClosedStreetInRoute()) return;
         Street currentStreet = getCurrentStreet();
         int velocity = currentStreet.velocity(this.velocity);
         double estimatedDistanceTravel = (double) velocity * timeDelta;

@@ -1,17 +1,13 @@
 package Scene;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import common.Routing;
 import model.Coordinate;
 import model.Stop;
 import model.Street;
@@ -20,10 +16,26 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
+interface ViewModelDelegate {
+    void updateAlternativeLine(BusView view);
+}
+
 public class ViewModel {
     private List<Street> streets;
     private List<Stop> stops;
     private List<TransportLine> transportLines;
+
+
+    public String closeStreetString = "Uzavřít ulice";
+    public String openStreetString = "Otevřít ulice";
+
+    public String defineNewRouteString = "Definovat linku";
+    public String completeNewRouteString = "Dokončit";
+    public String removeRouteString = "Odstranit";
+
+    private TransportLine alternativeLine;
+
+    public ViewModelDelegate delegate;
 
     public ViewModel() {
         JSONParser parser = new JSONParser();
@@ -123,5 +135,44 @@ public class ViewModel {
 
     public List<TransportLine> getTransportLines() {
         return this.transportLines;
+    }
+
+    public boolean isInDefinitionMode() {
+        return alternativeLine != null;
+    }
+
+    public void defineAlternativeRoute(TransportLine alternativeLine) {
+        this.alternativeLine = alternativeLine;
+    }
+
+    public TransportLine finishDefiningRoute() {
+        TransportLine line = alternativeLine;
+        alternativeLine = null;
+        return line;
+    }
+
+    private void updateAlterantiveRoute() {
+        if (delegate != null && alternativeLine.getRoute().size() > 1) {
+            BusView busView = new BusView(alternativeLine, Dispatching.shared.getTimestamp());
+            delegate.updateAlternativeLine(busView);
+        }
+    }
+
+    public void addToAlternativeRoute(StreetView view) {
+        if (!isInDefinitionMode()) return;
+        Street lastStreet = alternativeLine.lastStreet();
+        if (lastStreet == null || (Routing.intersection(lastStreet, view.getStreet()) != null && !lastStreet.equals(view.getStreet()))) {
+            alternativeLine.addStreet(view.getStreet());
+        }
+        updateAlterantiveRoute();
+    }
+
+    public void addToAlternativeRoute(StopView view) {
+        if (!isInDefinitionMode()) return;
+        Street lastStreet = alternativeLine.lastStreet();
+        if (lastStreet == null || (Routing.intersection(lastStreet, view.getStop().getStreet()) != null)) {
+            alternativeLine.addStop(view.getStop());
+        }
+        updateAlterantiveRoute();
     }
 }

@@ -1,16 +1,31 @@
-package Scene;
+package common;
 
 import java.lang.Math;
+
 import model.Coordinate;
 import model.Street;
 
 public class Routing {
     public static Coordinate intersection(Street street1, Street street2) {
-        Coordinate A = street1.getCoordinates().get(0);
-        Coordinate B = street1.getCoordinates().get(street1.getCoordinates().size() - 1);
-        Coordinate C = street2.getCoordinates().get(0);
-        Coordinate D = street2.getCoordinates().get(street2.getCoordinates().size() - 1);
+        for (int i = 1; i < street1.getCoordinates().size(); i++) {
+            Coordinate A = street1.getCoordinates().get(i-1).getKey();
+            Coordinate B = street1.getCoordinates().get(i).getKey();
+            for (int j = 1; j < street2.getCoordinates().size(); j++) {
+                Coordinate C = street2.getCoordinates().get(j-1).getKey();
+                Coordinate D = street2.getCoordinates().get(j).getKey();
+                Coordinate intersection = intersection(A, B, C, D);
+                if (intersection != null) {
+                    return intersection;
+                } else if (A.equals(C)) { // bit of a heck, when both streets are the same
+                    return A;
+                }
+            }
 
+        }
+        return null;
+    }
+
+    public static Coordinate intersection(Coordinate A, Coordinate B, Coordinate C, Coordinate D) {
         double a1 = B.getY() - A.getY();
         double b1 = A.getX() - B.getX();
         double c1 = a1*(A.getX()) + b1*(A.getY());

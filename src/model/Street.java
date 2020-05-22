@@ -1,21 +1,22 @@
 package model;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.lang.Math;
+import java.util.stream.Collectors;
 
 public class Street {
     private String id;
-    private List<Coordinate> coordinates;
+    private List<AbstractMap.SimpleImmutableEntry<Coordinate, Boolean>> coordinates;
     private List<Stop> stops;
     private double frictionCoefficient = 0;
 
     public Street(String id, List<Coordinate> coordinates) {
         this.id = id;
         this.stops = new ArrayList<>();
-        this.coordinates = new ArrayList<>(coordinates);
+        this.coordinates = coordinates.stream()
+                .map(coordinate -> new AbstractMap.SimpleImmutableEntry<>(coordinate, new Boolean(false)))
+                .collect(Collectors.toList());
+//        this.coordinates = new ArrayList<>(coordinates);
     }
 
     public boolean equals(Object o) {
@@ -33,8 +34,8 @@ public class Street {
         return id;
     }
 
-    public List<Coordinate> getCoordinates() {
-        return new ArrayList<>(coordinates);
+    public List<AbstractMap.SimpleImmutableEntry<Coordinate, Boolean>> getCoordinates() {
+        return coordinates;
     }
 
     public List<Stop> getStops() {
@@ -51,6 +52,18 @@ public class Street {
 
     public int velocity(int initialVelocity){ return initialVelocity - (int)(initialVelocity * frictionCoefficient); }
 
+    public List<Coordinate> getClosedCoordinates() {
+        List<Coordinate> closed = new ArrayList<>();
+        for (int i = 1; i < getCoordinates().size(); i++) {
+            if (getCoordinates().get(i).getValue()) {
+                int x = (getCoordinates().get(i-1).getKey().getX() + getCoordinates().get(i).getKey().getX())/2;
+                int y = (getCoordinates().get(i-1).getKey().getY() + getCoordinates().get(i).getKey().getY())/2;
+                closed.add(new Coordinate(x, y));
+            }
+        }
+        return closed;
+    }
+
     public boolean addStop(Stop stop) {
         if (this.stops.contains(stop)) {
             return false;
@@ -58,7 +71,7 @@ public class Street {
         if (coordinates.size() == 0) {
             return false;
         }
-        Coordinate c = coordinates.get(0);
+        Coordinate c = coordinates.get(0).getKey();
         Coordinate stopCoor = stop.getCoordinate();
         if (coordinates.size() == 1) {
             if (c.equals(stopCoor)) {
@@ -68,7 +81,7 @@ public class Street {
             }
         } else {
             for (int i = 1; i < coordinates.size(); i++) {
-                Coordinate next = coordinates.get(i);
+                Coordinate next = coordinates.get(i).getKey();
                 if (isOnLine(c, next, stopCoor)) {
                     this.stops.add(stop);
                     stop.setStreet(this);
@@ -103,13 +116,13 @@ public class Street {
         if (coordinates.size() == 0){
             return null;
         }
-        return this.coordinates.get(0);
+        return this.coordinates.get(0).getKey();
     }
 
     public Coordinate end() {
         if (coordinates.size() == 0){
             return null;
         }
-        return this.coordinates.get(this.coordinates.size() - 1);
+        return this.coordinates.get(this.coordinates.size() - 1).getKey();
     }
 }

@@ -11,12 +11,12 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 interface StreetViewDelegate {
-    void didSelect(StreetView street);
+    void didSelect(StreetView street, StreetViewLine line);
 }
 
 public class StreetView {
 
-    public ArrayList<Line> lines;
+    private ArrayList<StreetViewLine> lines;
 
     private Street street;
 
@@ -28,9 +28,9 @@ public class StreetView {
         lines = new ArrayList<>();
 
         for (int i = 0; i < street.getCoordinates().size() ; i++) {
-            Coordinate coord = street.getCoordinates().get(i);
+            Coordinate coord = street.getCoordinates().get(i).getKey();
             if (c != null) {
-                Line line = new Line(c.getX(), c.getY(), coord.getX(), coord.getY());
+                StreetViewLine line = new StreetViewLine(street, i, c.getX(), c.getY(), coord.getX(), coord.getY());
                 int radius = 5;
                 line.setStrokeWidth(2*radius);
                 line.setStroke(Color.LIGHTGRAY);
@@ -41,14 +41,19 @@ public class StreetView {
         }
     }
 
+    public ArrayList<StreetViewLine> getLines() {
+        return lines;
+    }
+
     public Street getStreet() {
         return street;
     }
 
     private void userSelectedStreet(Event event) {
         event.consume();
+        StreetViewLine line = (StreetViewLine) event.getSource();
         if (delegate != null){
-            this.delegate.didSelect(this);
+            this.delegate.didSelect(this, line);
         }
     }
 }
